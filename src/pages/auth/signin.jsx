@@ -11,6 +11,7 @@ import { signinSchema } from "./components/zodConfig";
 
 export default function Signin() {
     const hdlOutletContext = useOutletContext();
+    const [isLoading, setIsLoading] = useState(false);
     // const [data, setData] = useState({
     //     email: "adb@mail.co",
     //     password: "1234"
@@ -47,6 +48,7 @@ export default function Signin() {
 
     const onSubmit = async (data) => {
         // e.preventDefault();
+        setIsLoading(true);
         try {
             const res = await actionSignin(data);
 
@@ -68,7 +70,7 @@ export default function Signin() {
                 console.log(err.response.data.message);
             } else {
                 console.log(err.name, ' : ', err.message);
-            }
+            };
         };
     };
 
@@ -104,8 +106,11 @@ export default function Signin() {
                     </div>
 
                     <div>
-                        <button type='submit' className="bo-btn-add bg-sky-500 hover:bg-sky-400 my-4 py-2 w-full">Sign in</button>
-                        {/* <button type="reset" className="bo-btn-add bg-sky-500 hover:bg-sky-400 my-4 py-2 w-full">reset</button> */}
+                        <button type='submit' disabled={isLoading} className="bo-btn-add bg-sky-500 hover:bg-sky-400 my-4 py-2 w-full btn-disabled">
+                            <span id="button-text">
+                                {isLoading ? <div className="spinner" id="spinner"></div> : "Sign in"}
+                            </span>
+                        </button>
                     </div>
 
                 </form>

@@ -13,8 +13,10 @@ export default function Register() {
     const [pwdScore, setPwdScore] = useState(0);
     const { cssTopNag } = cssSetting;
     const hdlOutletContext = useOutletContext();
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (data) => {
+        setIsLoading(true);
         try {
             const res = await userRegister(data);
 
@@ -26,11 +28,14 @@ export default function Register() {
                     password: '',
                     confirmpassword: ''
                 });
+
+                setIsLoading(false);
             };
         } catch (err) {
             console.log(err)
             console.log('err : ', err.response.data.message)
             toast.error(err.response.data.message);
+            setIsLoading(false);
         };
     };
 
@@ -111,7 +116,11 @@ export default function Register() {
                     </div>
 
                     <div>
-                        <button type='submit' className="bo-btn-add bg-sky-500 hover:bg-sky-400 my-4 py-2 w-full">Register</button>
+                        <button type='submit' disabled={isLoading} className="bo-btn-add bg-sky-500 hover:bg-sky-400 my-4 py-2 w-full btn-disabled">
+                            <span id="button-text">
+                                {isLoading ? <div className="spinner" id="spinner"></div> : "Register"}
+                            </span>
+                        </button>
                     </div>
                 </form>
 
