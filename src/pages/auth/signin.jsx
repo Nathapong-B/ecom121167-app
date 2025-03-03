@@ -72,6 +72,7 @@ export default function Signin() {
                 console.log(err.name, ' : ', err.message);
             };
         };
+        setIsLoading(false);
     };
 
     return (
