@@ -4,15 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import zxcvbn from "zxcvbn";
 import { registerSchema } from "./components/zodConfig";
 import { userRegister } from "../../api/userApi";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { hdlClickInput, hdlInputOnBlur, cssSetting } from "../util/animateInputForm";
 import { toast } from "react-toastify";
 
 export default function Register() {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({ resolver: zodResolver(registerSchema) });
-
+    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm({ resolver: zodResolver(registerSchema) });
     const [pwdScore, setPwdScore] = useState(0);
     const { cssTopNag } = cssSetting;
+    const hdlOutletContext = useOutletContext();
 
     const onSubmit = async (data) => {
         try {
@@ -20,8 +20,13 @@ export default function Register() {
 
             if (res.status === 200) {
                 toast.success('ลงทะเบียนเรียบร้อยแล้ว, กรุณาเข้าสู่ระบบ');
-                console.log('Please login..');
-            }
+                // console.log('Please login..');
+                reset({
+                    email: '',
+                    password: '',
+                    confirmpassword: ''
+                });
+            };
         } catch (err) {
             console.log(err)
             console.log('err : ', err.response.data.message)
@@ -60,10 +65,9 @@ export default function Register() {
         setPwdScore(zxcvbn(pwd).score);
     };
 
-    console.log(errors)
-    console.log(watch())
-
     useEffect(() => {
+        hdlOutletContext('Register');
+
         setScorePwd(watch().password);
     }, [watch().password]);
 

@@ -1,7 +1,7 @@
 import { useShallow } from "zustand/react/shallow"
 import { useCartStore } from "../../ecomStore/useCartStore"
 import { useAuthStore } from "../../ecomStore/authStore";
-import { createSearchParams, Link, useNavigate } from "react-router-dom";
+import { createSearchParams, Link, useNavigate, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import LoadingCover from "../loadingCover";
@@ -24,8 +24,9 @@ export default function OrderDetail() {
     const [addressCheck, setAddressCheck] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errors, setErrors] = useState({});
+    const hdlOutletContext = useOutletContext();
 
-    document.title = 'Order detail';
+    // document.title = 'Order detail';
 
     const calSum = (items) => {
         const products = [...items];
@@ -138,6 +139,8 @@ export default function OrderDetail() {
     };
 
     useEffect(() => {
+        hdlOutletContext('Order detail');
+
         if (order.length < 1) {
             nav('/main/cart');
         };

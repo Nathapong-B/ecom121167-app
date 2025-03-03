@@ -1,4 +1,4 @@
-import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom"
+import { createSearchParams, useNavigate, useOutletContext, useSearchParams } from "react-router-dom"
 import { searchProduct } from "../../api/productApi";
 import { useEffect, useState } from "react";
 import BoxSearch from "./components/boxSearch";
@@ -18,11 +18,12 @@ export default function ViewByGroup() {
     const { addToCart } = useCartStore(useShallow((s) => ({
         addToCart: s.actionAddToCart,
     })));
+    const hdlOutletContext = useOutletContext();
 
     const [data, setData] = useState();
     const nav = useNavigate();
 
-    document.title = 'Search';
+    // document.title = 'Search';
 
     const fetchData = async () => {
         try {
@@ -77,7 +78,8 @@ export default function ViewByGroup() {
     };
 
     useEffect(() => {
-        fetchData()
+        hdlOutletContext('Search');
+        fetchData();
     }, [searchParams]);
 
     const hdlAddToCart = (data) => {

@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom"
+import { useOutletContext, useSearchParams } from "react-router-dom"
 import { getProductDetail } from "../util/utilProduct";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -16,9 +16,10 @@ export default function ProductDetail() {
     })));
     const scrollRestoration = history.scrollRestoration;
     const [data, setData] = useState();
+    const hdlOutletContext = useOutletContext();
     data?.Image.sort((a, b) => a.position - b.position); // sort image position
 
-    document.title = data?.product_name ? data.product_name.toUpperCase() : 'Product detail';
+    // document.title = data?.product_name ? data.product_name.toUpperCase() : 'Product detail';
 
     const fetchData = async () => {
         const res = await getProductDetail(pid, store);
@@ -41,6 +42,8 @@ export default function ProductDetail() {
 
         if (res.success) toast.success(res.success.message);
     };
+
+    data?.product_name ? hdlOutletContext(data.product_name.toUpperCase()) : hdlOutletContext('Product detail');
 
     useEffect(() => {
         // ไม่ต้องให้คืนค่า scroll อัตโนมัติ เมื่อมีการรีโหลดหน้าเพจ เพื่อให้จัดการ scrollTop ด้วยตนเอง

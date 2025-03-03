@@ -2,7 +2,7 @@ import { useCartStore } from "../../ecomStore/useCartStore"
 import { useShallow } from "zustand/react/shallow";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate, useOutletContext } from "react-router-dom";
 import { getImgPosition0 } from "../util/utilProduct";
 
 export default function CartDetail() {
@@ -16,8 +16,9 @@ export default function CartDetail() {
     })));
     const [productChecked, setProductChecked] = useState([]);
     const nav = useNavigate();
+    const hdlOutletContext = useOutletContext();
 
-    document.title = 'Cart detail';
+    // document.title = 'Cart detail';
 
     const hdlIncrease = (item) => {
         const res = actionIncrease(item);
@@ -29,6 +30,8 @@ export default function CartDetail() {
     };
 
     useEffect(() => {
+        hdlOutletContext('Cart detail');
+
         actionUpdateStock();
     }, []);
 

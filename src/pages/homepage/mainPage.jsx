@@ -6,12 +6,14 @@ import ProductRecommend from "./components/pRecommend";
 import StickyBoxCart from "./components/stickyBoxCart";
 import { useEcomStore } from "../../ecomStore/useEcomStore";
 import { useShallow } from "zustand/shallow";
+import { useOutletContext } from "react-router-dom";
 
 export default function MainPage() {
     const [scrollTopEl, setScrollTop] = useState(0);
     const [clientHeightEl, setClientHeight] = useState(document.documentElement.clientHeight);
     const scrollRestoration = history.scrollRestoration;
     const mainRef = useRef();
+    const hdlOutletContext = useOutletContext();
     // const { products, pNewArrival, pBestSeller } = useEcomStore(useShallow(s => ({
     //     products: s.products,
     //     pNewArrival: s.pNewArrival,
@@ -20,7 +22,7 @@ export default function MainPage() {
     // const [first,setFirst]=useState(true);
     // const [componentsLoad,setComponentsLoad]=useState({recommend:''})
 
-    document.title = 'Home';
+    // document.title = 'Home';
 
     // let decimal = ((((clientHeightEl - scrollTopEl) * 100) / clientHeightEl) / 100).toFixed(2); // toFixed() จำนวนตำแหน่งทศนิยม
 
@@ -35,29 +37,30 @@ export default function MainPage() {
     // console.log(document.documentElement.clientHeight)
     // console.log(mainRef.current.clientHeight)
     useEffect(() => {
+        hdlOutletContext('Home')
         // if(first){
-            // ไม่ต้องให้คืนค่า scroll อัตโนมัติ เมื่อมีการรีโหลดหน้าเพจ เพื่อให้จัดการ scrollTop ด้วยตนเอง
-            // if (scrollRestoration === "auto") {
-            //     history.scrollRestoration = "manual";
-            // };
-    
-            // document.documentElement.scrollTop = 0;
-    
-            // root.style.setProperty('--hscreen', `0px`);
-    
-            window.addEventListener('scroll', () => {
-                const {
-                    scrollTop,
-                    clientHeight,
-                } = document.documentElement;
-    
-                setScrollTop(() => scrollTop);
-                setClientHeight(() => clientHeight);
-            });
-    
-            // setFirst(false)
+        // ไม่ต้องให้คืนค่า scroll อัตโนมัติ เมื่อมีการรีโหลดหน้าเพจ เพื่อให้จัดการ scrollTop ด้วยตนเอง
+        // if (scrollRestoration === "auto") {
+        //     history.scrollRestoration = "manual";
         // };
-            // hdlMaincontentsHeight();
+
+        // document.documentElement.scrollTop = 0;
+
+        // root.style.setProperty('--hscreen', `0px`);
+
+        window.addEventListener('scroll', () => {
+            const {
+                scrollTop,
+                clientHeight,
+            } = document.documentElement;
+
+            setScrollTop(() => scrollTop);
+            setClientHeight(() => clientHeight);
+        });
+
+        // setFirst(false)
+        // };
+        // hdlMaincontentsHeight();
 
     }, []);
     // }, [componentsLoad]);
@@ -89,11 +92,11 @@ export default function MainPage() {
     // const hdlComponentsLoad=(data)=>{
     //     const key= Object.keys(data)
     //     console.log(!componentsLoad[key] ? 'yes' : 'no')
-        
+
     //     if(!componentsLoad[key]) setComponentsLoad(data)
-        // setComponentsLoad(prev=>{
-        //     if(prev[key])
-        // });
+    // setComponentsLoad(prev=>{
+    //     if(prev[key])
+    // });
     // };
     // console.log(componentsLoad)
 

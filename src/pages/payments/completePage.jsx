@@ -1,8 +1,14 @@
-import { createSearchParams, Link } from "react-router-dom";
+import { createSearchParams, Link, useOutletContext } from "react-router-dom";
 import ProductRecommend from "../homepage/components/pRecommend";
+import { useEffect } from "react";
 
 export default function CompletePage() {
-    document.title = 'Completed';
+    const hdlOutletContext = useOutletContext();
+
+    // document.title = 'Completed';
+    useEffect(() => {
+        hdlOutletContext('Completed');
+    }, []);
 
     return (
         <div className="w-full max-w-4xl m-auto">
@@ -13,7 +19,7 @@ export default function CompletePage() {
                     {/* <Link to={'/profile/my-purchase'}> */}
                     <Link to={{
                         pathname: '/profile/my-purchase',
-                        search: createSearchParams({ ms:'payment-completed' }).toString()
+                        search: createSearchParams({ ms: 'payment-completed' }).toString()
                     }}>
                         <button className="bo-btn-add bg-red-400 me-2 py-1">ไปหน้าประวัติคำสั่งซื้อ</button>
                     </Link>

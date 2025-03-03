@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useAuthStore } from "../../ecomStore/authStore";
 // import { useMultiState } from "../../ecomStore/useMultiState";
 import { useShallow } from 'zustand/react/shallow'
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { hdlClickInput, hdlInputOnBlur, cssSetting } from "../util/animateInputForm";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signinSchema } from "./components/zodConfig";
 
 export default function Signin() {
+    const hdlOutletContext = useOutletContext();
     // const [data, setData] = useState({
     //     email: "adb@mail.co",
     //     password: "1234"
@@ -33,6 +34,10 @@ export default function Signin() {
     );
     const navigate = useNavigate();
     const { cssTopNag } = cssSetting;
+
+    useEffect(() => {
+        hdlOutletContext('Sign-in');
+    }, []);
 
     // const hdlInputForm = (el) => {
     //     const inputName = el.target.name;
@@ -66,18 +71,6 @@ export default function Signin() {
             }
         };
     };
-
-    // console.log(watch())
-    // const hdlReset = () => {
-    //     reset({
-    //         email: '',
-    //         password: ''
-    //     })
-    // }
-
-    // const debug = () => {
-    //     console.log(watch())
-    // }
 
     return (
         <div className="relative m-auto min-w-max w-96 h-max p-10 rounded rounded-md bg-gray-300/80">

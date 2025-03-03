@@ -5,7 +5,7 @@ import { useAuthStore } from "../../ecomStore/authStore";
 import { toast } from "react-toastify";
 import PageNotFound from "../404Page";
 import MyPurchaseTable from "./components/myPurchaseTable";
-import { useSearchParams } from "react-router-dom";
+import { useOutletContext, useSearchParams } from "react-router-dom";
 
 export default function MyPurchase() {
     const [searchParams] = useSearchParams();
@@ -18,8 +18,9 @@ export default function MyPurchase() {
         actionClearMyPurchase: s.actionClearMyPurchase,
         actionRemoveOrder: s.actionRemoveOrder,
     })));
+    const hdlOutletContext = useOutletContext();
 
-    document.title = 'Purchase';
+    // document.title = 'Purchase';
 
     const callListMyPurchase = async () => {
         await actionListMyPurchase(10, token);
@@ -46,6 +47,8 @@ export default function MyPurchase() {
     };
 
     useEffect(() => {
+        hdlOutletContext('My Purchase');
+
         if (ms === 'payment-completed') {
             callListMyPurchase();
         };

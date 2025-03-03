@@ -18,6 +18,7 @@ export default function Homepage() {
     const path = window.location.pathname;
     const scrollRestoration = history.scrollRestoration;
     const [homeCoverClose, setHomeCoverClose] = useState(false);
+    const [titleName, setTitleName] = useState('Ecom-121167');
 
     const hdlSignOut = () => {
         signOut({ isReload: true });
@@ -83,6 +84,12 @@ export default function Homepage() {
         return "";
     };
 
+    const hdlOutletContext = (data) => {
+        setTitleName(data);
+    };
+
+    document.title = 'Ecom-121167 ' + titleName;
+
     return (
         <div className="relative w-full min-h-screen p-0 m-0 flex flex-col bg-main">
 
@@ -97,7 +104,7 @@ export default function Homepage() {
             </div>
 
             <div className="z-10 flex-1">
-                <Outlet />
+                <Outlet context={hdlOutletContext} />
             </div>
 
             <div className="w-full h-20 bg-gray-300">

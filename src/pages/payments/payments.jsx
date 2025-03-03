@@ -1,8 +1,9 @@
-import { useSearchParams } from "react-router-dom"
+import { useOutletContext, useSearchParams } from "react-router-dom"
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./checkoutForm";
 import "./stylePayment.css";
+import { useEffect } from "react";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -13,8 +14,12 @@ export default function Payments() {
     const [searchParams] = useSearchParams();
     const clientSecret = searchParams.get('cs');
     const amount = searchParams.get('amount');
+    const hdlOutletContext = useOutletContext();
 
-    document.title = 'Payment';
+    // document.title = 'Payment';
+    useEffect(()=>{
+        hdlOutletContext('Payment');
+    },[]);
 
     const appearance = {
         theme: 'stripe',
