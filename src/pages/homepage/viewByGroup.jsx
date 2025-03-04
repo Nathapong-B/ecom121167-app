@@ -19,13 +19,15 @@ export default function ViewByGroup() {
         addToCart: s.actionAddToCart,
     })));
     const hdlOutletContext = useOutletContext();
-
     const [data, setData] = useState();
     const nav = useNavigate();
+    const [isLoad, setIsLoad] = useState(false);
 
     // document.title = 'Search';
 
     const fetchData = async () => {
+        setData();
+        setIsLoad(true);
         try {
             const price = (!price_s || !price_e) ? [] : [price_s, price_e];
             const payload = { category_id: category_id ? [category_id] : [], product_name, price };
@@ -37,6 +39,7 @@ export default function ViewByGroup() {
         } catch (err) {
             console.log(err)
         };
+        setIsLoad(false);
     };
 
     const hdlReceiveBoxSearch = (data) => {
@@ -126,7 +129,16 @@ export default function ViewByGroup() {
                         </div>
                         {data?.length > 0
                             ? <BlockProducts products={data} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
-                            : <div className="p-5">&#10007; ไม่พบข้อมูล</div>
+                            : isLoad
+                                ? <div className="flex w-full p-4">
+                                    <div className="font-bold">Now searching</div>
+                                    <div className="relative">
+                                        <div className="dot1"></div>
+                                        <div className="dot2"></div>
+                                        <div className="dot3"></div>
+                                    </div>
+                                </div>
+                                : <div className="p-5">&#10007; ไม่พบข้อมูล</div>
                         }
                     </div>
                 </div>

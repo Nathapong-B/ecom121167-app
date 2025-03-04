@@ -2,34 +2,7 @@ import { useEffect, useState } from "react";
 import "./cssLoading.css"
 
 export default function LoadingCover({ isLoading, title = 'loading.' }) {
-    // const [count, setCount] = useState(0);
 
-    // const runInterval = () => {
-    //     const interval = setInterval(() => {
-    //         setCount(prev => {
-    //             if (prev >= 5) {
-    //                 return 0;
-    //             };
-    //             return prev + 1;
-    //         });
-
-    //         if (!isLoading) return clearInterval(interval);
-    //     }, 1000);
-    // };
-
-    // useEffect(() => {
-    //     runInterval();
-    // }, []);
-
-    // const mapDot = () => {
-    //     return (
-    //         Array(count >= 3 ? count % 3 : count).fill(null).map(() => {
-    //             return '.'
-    //         })
-    //     );
-    // };
-
-    // return
     if (isLoading) {
         return (
             <div className="absolute top-0 left-0 z-50">
