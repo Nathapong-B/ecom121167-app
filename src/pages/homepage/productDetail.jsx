@@ -59,9 +59,8 @@ export default function ProductDetail() {
     return (
         <div className="w-full max-w-4xl m-auto px-2">
 
-            {data &&
-                <div className="w-full min-h-max m-auto mt-6 flex flex-col gap-2 md:flex-row">
-
+            {data
+                ? <div className="w-full min-h-max m-auto mt-6 flex flex-col gap-2 md:flex-row">
                     {/* image display */}
                     <div className="w-3/5 md:max-w-lg">
                         <ImagesDisplay data={data?.Image} />
@@ -70,20 +69,35 @@ export default function ProductDetail() {
                     {/* product description */}
                     <div className="relative w-2/5 flex flex-col mx-auto p-2 bg-white rounded">
                         <div className="font-bold text-xl text-gray-500">{data.product_name.toUpperCase()}</div>
-
                         <div>{data.description}</div>
-
                         <div className="mx-auto font-bold text-red-500 text-center">
                             <span>ราคา </span>
                             <span className="text-2xl"> {data.price.toLocaleString('th-TH')} </span>
                             <span> บาท</span>
-
                             <div className="text-center">
                                 <button className="bo-btn-add bg-sky-500" onClick={() => hdlAddToCart(data)}>+ ADD TO CART</button>
                             </div>
                         </div>
                     </div>
+                </div>
+                : <div className="w-full min-h-max m-auto mt-6 flex flex-col gap-2 md:flex-row">
+                    <div className="w-3/5 md:max-w-lg flex bg-white rounded p-2">
+                        <div className="font-bold">Loading img</div>
+                        <div className="relative">
+                            <div className="dot1"></div>
+                            <div className="dot2"></div>
+                            <div className="dot3"></div>
+                        </div>
+                    </div>
 
+                    <div className="relative w-2/5 flex p-2 bg-white rounded">
+                        <div className="font-bold">Loading description</div>
+                        <div className="relative">
+                            <div className="dot1"></div>
+                            <div className="dot2"></div>
+                            <div className="dot3"></div>
+                        </div>
+                    </div>
                 </div>
             }
 
