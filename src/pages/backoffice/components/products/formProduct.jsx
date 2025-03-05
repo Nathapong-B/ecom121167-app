@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react"
 import { useEcomStore } from "../../../../ecomStore/useEcomStore";
 import { hdlClickInput, hdlInputOnBlur, cssSetting } from "../../../util/animateInputForm";
+import { useShallow } from "zustand/shallow";
 
 export default function FormProduct(props) {
     const [data, setData] = useState(props.data ? props.data : null);
-    const categories = useEcomStore(s => s.categories);
+    const { categories,callListCategories } = useEcomStore(useShallow(s => ({
+        categories: s.categories,
+        callListCategories: s.actionCallListCategoriesOnHome,
+    })));
     const { cssTopNag, cssTopNagDes } = cssSetting;
 
     const hdlInputChange = (e) => {
@@ -14,8 +18,16 @@ export default function FormProduct(props) {
         return setData(prev => ({ ...prev, [name]: value }));
     };
 
+    const hdlCallListCategories = async() => {
+        await callListCategories();
+    };
+
     useEffect(() => {
         props.returnData(data ?? {});
+
+        if (!categories) {
+            hdlCallListCategories();
+        };
     }, [data]);
 
     return (
