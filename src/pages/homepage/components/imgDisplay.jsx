@@ -75,7 +75,7 @@ export default function ImagesDisplay(props) {
     }, [indexImgShow, data]);
 
     return (
-        <div className="">
+        <div className="max-h-[500px]">
 
             {/* img main */}
             <div className="w-full h-96 m-auto bg-white rounded mb-2">

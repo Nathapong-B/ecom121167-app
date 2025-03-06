@@ -11,13 +11,13 @@ const cartStore = (set, get) => ({
     order: [],
     myPurchase: [],
 
-    actionDataTest:()=>{
+    actionDataTest: () => {
         console.log('data test')
         return 'data from data test';
     },
 
-    actionTest:()=>{
-        const data=get().actionDataTest()
+    actionTest: () => {
+        const data = get().actionDataTest()
         return data;
 
     },
@@ -43,7 +43,7 @@ const cartStore = (set, get) => ({
 
     },
 
-    actionAddToCart: (item) => {
+    actionAddToCart: (item, qty) => {
         if (!userId()) return { error: { message: 'Please sign-in' } };
 
         const product = { ...item };
@@ -51,11 +51,11 @@ const cartStore = (set, get) => ({
         // product.Image = item.Image.find(e => e.position === 0).url;
         const cart = get().cart;
 
-        product.qty = 1;
+        product.qty = qty ?? 1;
 
         // found return index notfound return -1
-        const index = cart.findIndex(e => e.id === product.id);
-        const unit = cart.find(e => e.id === product.id);
+        const index = cart.findIndex(e => e.id === product.id); //หาตำแหน่งหากมี
+        const unit = cart.find(e => e.id === product.id); //รีเทิร์นข้อมูลหากมี
 
         if (index === -1) {
             // recheck stock
@@ -65,9 +65,9 @@ const cartStore = (set, get) => ({
             return { success: { message: `${product.product_name.toUpperCase()} add to cart successful` } };
         } else {
             // recheck stock
-            if (product.stock < (unit.qty + 1)) return { error: { message: 'Stock not enough' } };
+            if (product.stock < (unit.qty + product.qty)) return { error: { message: 'Stock not enough' } };
 
-            unit.qty += 1;
+            unit.qty += product.qty;
 
             // remove arr(index,count)
             cart.splice(index, 1);

@@ -26,16 +26,16 @@ export default function BoxCart(props) {
                     <ul>
                         {cart.map((e, i) => (
                             <li key={i}>
-                                <div className="min-w-max w-60 flex">
-                                    <div className="flex-1 flex gap-2 w-7/12">
-                                        <div className="h-8 w-8">
+                                <div className="min-w-[400px] max-w-[400px] flex">
+                                    <div className="flex-1 flex gap-2 min-w-[200px]">
+                                        <div className="h-8 min-w-[25px] max-w-[25px]">
                                             <img src={getImgPosition0(e.Image)[0].url} onClick={() => viewProductDetail(e)} className="object-contain cursor-pointer"></img>
                                         </div>
 
                                         <div onClick={() => viewProductDetail(e)} className="text-overflow cursor-pointer">{e.product_name.toUpperCase()}</div>
                                     </div>
-                                    <div className="w-2/12 text-center">{e.qty}</div>
-                                    <div className="w-3/12 min-w-max text-end">{e.price.toLocaleString('th-TH')}.-</div>
+                                    <div className="w-[50px] text-center">{e.qty}</div>
+                                    <div className="min-w-[80px] max-w-[80px] text-end">{e.price.toLocaleString('th-TH')}.-</div>
                                 </div>
                             </li>
                         ))}

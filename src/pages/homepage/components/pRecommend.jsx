@@ -53,6 +53,6 @@ export default function ProductRecommend(props) {
         <div>
             <div className="block-title">สินค้าแนะนำ</div>
             <BlockProducts products={products} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
-        </div>
+        </div >
     )
 };
