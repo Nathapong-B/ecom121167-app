@@ -153,7 +153,10 @@ export default function BoxSearch(props) {
                 </div>
 
                 <div className="text-center mt-4">
-                    <button className="bo-btn-add bg-sky-500" onClick={() => hdlSearch()}>Search</button>
+                    <button className="bo-btn-add bg-sky-500" onClick={() => hdlSearch()}>
+                        <i class="fa-solid fa-magnifying-glass fa-sm me-2"></i>
+                        Search
+                    </button>
                 </div>
 
             </div>

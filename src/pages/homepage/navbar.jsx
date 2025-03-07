@@ -17,9 +17,9 @@ export default function NavBar() {
         categoriesList: s.categories,
         callListCategories: s.actionCallListCategoriesOnHome,
     })));
-    const { cart,actionTest } = useCartStore(useShallow(s => ({
+    const { cart, actionTest } = useCartStore(useShallow(s => ({
         cart: s.cart,
-        actionTest:s.actionTest,
+        actionTest: s.actionTest,
     })));
     const [categoriesBox, setCategoriesBox] = useState(false);
     const [basketBox, setBasketBox] = useState(false);
@@ -61,7 +61,7 @@ export default function NavBar() {
                     </div>
 
                     <div>
-                        <NavSearch/>
+                        <NavSearch />
                     </div>
 
                 </div>
@@ -101,16 +101,18 @@ export default function NavBar() {
                         }
                     </div>
 
-                    <div className="relative w-24 max-w-28 justify-items-end">
+                    <div className="relative w-[10px] max-w-[10px] justify-items-end">
                         <div className="text-nav flex " onMouseOver={() => setBasketBox(true)} onMouseOut={() => setBasketBox(false)}>
-                            <div>
-                                <Link to={'main/cart'}>ตะกร้าสินค้า</Link>
-                            </div>
-                            <div className="bg-red-500 rounded rounded-full text-xs text-gray-200 h-4 w-4 flex justify-center items-center">
+                            <Link to={'main/cart'}>
                                 <div>
-                                    {cart.length}
+                                    <i class="fa-solid fa-cart-shopping fa-lg"></i>
                                 </div>
-                            </div>
+                                <div className="absolute -top-1 -right-2 bg-red-500 rounded rounded-full text-xs text-gray-200 h-4 w-4 flex justify-center items-center">
+                                    <div>
+                                        {cart.length}
+                                    </div>
+                                </div>
+                            </Link>
                         </div>
                         {basketBox
                             ? <div onMouseOver={() => setBasketBox(true)} onMouseOut={() => setBasketBox(false)}>

@@ -119,10 +119,14 @@ export default function ProductDetail() {
                                     </span>
                                 </div>
 
-                                <div className="flex min-w-20">
-                                    <button name="decrease" onClick={(e) => hdlIncreaseDecreaseQty(e)} className="rounded-s border border-red-500 w-1/4 text-center hover:bg-red-500 hover:text-white">-</button>
+                                <div className="flex min-w-[100px]">
+                                    <button name="decrease" onClick={(e) => hdlIncreaseDecreaseQty(e)} className="rounded-s border border-red-500 w-max px-2 text-center hover:bg-red-500 hover:text-white">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
                                     <div className="flex-1 text-center bg-gray-300">{qty}</div>
-                                    <button name="increase" onClick={(e) => hdlIncreaseDecreaseQty(e)} className="rounded-e border border-red-500 w-1/4 text-center hover:bg-red-500 hover:text-white">+</button>
+                                    <button name="increase" onClick={(e) => hdlIncreaseDecreaseQty(e)} className="rounded-e border border-red-500 w-max px-2 text-center hover:bg-red-500 hover:text-white">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
                                 </div>
 
                                 <div className="ms-2 flex text-sm text-red-500 font-normal items-center">
@@ -134,8 +138,11 @@ export default function ProductDetail() {
 
 
                             <div className="flex flex-wrap gap-2 text-center mt-4 w-full min-w-[200px]">
-                                <button className="bo-btn-add bg-red-500 flex-1 min-w-[200px] py-2" onClick={() => hdlBuynow(data, qty)}>Buy now</button>
-                                <button className="bo-btn-add bg-sky-500 flex-1 min-w-[200px] py-2" onClick={() => hdlAddToCart(data, qty)}>+ ADD TO CART</button>
+                                <button className="bo-btn-add bg-red-500 flex-1 min-w-[200px] py-2" onClick={() => hdlBuynow(data, qty)}>ซื้อเลย</button>
+                                <button className="bo-btn-add bg-sky-500 flex-1 min-w-[200px] py-2" onClick={() => hdlAddToCart(data, qty)}>
+                                    <i class="fa-solid fa-cart-arrow-down fa-lg me-2"></i>
+                                    เพิ่มลงตะกร้า
+                                </button>
                             </div>
                         </div>
                     </div>

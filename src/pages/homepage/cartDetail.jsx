@@ -150,16 +150,18 @@ export default function CartDetail() {
                                             </td>
                                             <td className="text-center">
                                                 <div className="flex justify-center">
-                                                    <button onClick={() => hdlDecrease(e)} className="bo-btn-add text-red-500 hover:text-red-300 p-0">
-                                                        <span>&#60;</span>
-                                                        <span className="text-xs">ลด</span>
+                                                    <button onClick={() => hdlDecrease(e)} className="bo-btn-add text-red-500 hover:text-white hover:bg-red-500 px-1">
+                                                        {/* <span>&#60;</span>
+                                                        <span className="text-xs">ลด</span> */}
+                                                        <i class="fa-solid fa-minus fa-xs"></i>
                                                     </button>
                                                     <div className="px-2">
                                                         {e.qty}
                                                     </div>
-                                                    <button onClick={() => hdlIncrease(e)} className="bo-btn-add text-green-500 hover:text-green-300 p-0">
-                                                        <span className="text-xs">เพิ่ม</span>
-                                                        <span>&#62;</span>
+                                                    <button onClick={() => hdlIncrease(e)} className="bo-btn-add text-green-500 hover:text-white hover:bg-green-500 px-1">
+                                                        {/* <span className="text-xs">เพิ่ม</span>
+                                                        <span>&#62;</span> */}
+                                                        <i class="fa-solid fa-plus fa-xs"></i>
                                                     </button>
                                                 </div>
 
