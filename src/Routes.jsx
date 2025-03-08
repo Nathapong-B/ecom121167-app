@@ -25,7 +25,7 @@ import ProductDetail from "./pages/homepage/productDetail";
 import MyProfile from "./pages/user/myProfile";
 import UserGuard from "./pages/user/userGuard";
 import ViewByGroup from "./pages/homepage/viewByGroup";
-// import TestPath from "./pages/testpath"
+import TestPath from "./pages/testpath"
 
 const router = createBrowserRouter([
     {
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
             { path: 'profile', element: <Profile /> }
         ]
     },
-    // { path: '/testpath', element: <TestPath /> }
+    { path: '/testpath', element: <TestPath /> }
 ])
 
 export default function Routes() {

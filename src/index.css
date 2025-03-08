@@ -42,6 +42,11 @@
     /* text-stroke: 2px red; */
   }
 
+  .text-stroke-black {
+    -webkit-text-stroke: 1px #ffffff;
+    /* text-stroke: 2px red; */
+  }
+
   .navbar .text-nav {
     @apply cursor-pointer hover:text-sky-500;
   }
