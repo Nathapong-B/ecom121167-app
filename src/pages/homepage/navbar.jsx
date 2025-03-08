@@ -1,6 +1,6 @@
 import { useShallow } from "zustand/react/shallow";
 import { useEcomStore } from "../../ecomStore/useEcomStore"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthStore } from "../../ecomStore/authStore";
 import BoxCategories from "./components/boxCategories";
 import BoxProfileMenu from "./components/boxProfileMenu";
@@ -24,23 +24,47 @@ export default function NavBar() {
     const [categoriesBox, setCategoriesBox] = useState(false);
     const [basketBox, setBasketBox] = useState(false);
     const [profileBox, setProfileBox] = useState(false);
+    const containEl = useRef();
+    const colorDefault = "bg-gradient-to-r from-gray-200/90 from-20% via-gray-200/50 to-gray-200/90 to-80%";
+    const colorTextDefault = "text-gray-500 shadow-sm";
+    const colorTextWhite = "text-gray-200";
+
+    const changeColor = () => {
+        if (scrollTop > clientHeight) {
+            return colorTextDefault;
+        }else{
+            return colorTextWhite;
+        }
+    };
 
     const updateStore = () => {
         useCartStore.persist.rehydrate()
     };
+
+    const [scrollTop, setScrollTop] = useState(0);
+    const [clientHeight, setClientHeight] = useState(0);
 
     useEffect(() => {
         if (!categoriesList) {
             callListCategories(6)
         };
 
+        window.addEventListener('scroll', () => {
+            const {
+                scrollTop,
+                clientHeight
+            } = document.documentElement;
+            setClientHeight(() => clientHeight);
+            setScrollTop(() => scrollTop);
+        });
+
         window.addEventListener('focus', updateStore);
     }, []);
 
     return (
-        <div className="navbar relative w-full px-6 h-10 bg-gradient-to-r from-gray-200/90 from-20% via-gray-200/50 to-gray-200/90 to-80% flex justify-center text-gray-500">
+        <div ref={containEl} className={`navbar relative w-full px-6 h-10 flex justify-center ${changeColor()}`}>
 
-            <div className="absolute bg-gray-200/10 w-full h-full backdrop-blur-sm z-10"></div>
+            {scrollTop > clientHeight && <div className="absolute bg-gray-200/10 w-full h-full backdrop-blur-sm z-10"></div>}
 
             <div className="w-full max-w-6xl flex items-center justify-between z-50">
                 <div className="flex items-center gap-2">

@@ -52,7 +52,7 @@ export default function NavSearch() {
     };
 
     return (
-        <div ref={boxSearchRef} onClick={() => hdlOnClick()} onMouseOver={() => hdlOnClick()}>
+        <div ref={boxSearchRef} onClick={() => hdlOnClick()} onMouseOver={() => hdlOnClick()} className="text-gray-500">
             <form onSubmit={hdlSubmit} className="relative flex items-center">
                 <div className="flex h-7 w-max items-center rounded rounded-full bg-white box-shadow-normal overflow-hidden px-2 has-[:focus]:text-sky-500 has-[:focus]:ring-2" >
                     <label htmlFor="search" id="lbl_search" onClick={(e) => hdlOnClick(e)} className={`text-11px  px-1 rounded rounded-full ${inputHide ? '' : 'box-shadow-normal'} cursor-pointer select-none`}>
