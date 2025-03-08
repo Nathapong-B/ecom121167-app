@@ -14,7 +14,7 @@ export default function Header() {
                         </div>
                     </div>
 
-                    <div className="md:absolute md:top-10 md:-right-5">
+                    <div className="mx-auto md:absolute md:top-10 md:-right-0">
                         <img src="/pngegg.png" className="w-[650px]"></img>
                     </div>
 
