@@ -28,11 +28,26 @@ export default function NavBar() {
     const colorDefault = "bg-gradient-to-r from-gray-200/90 from-20% via-gray-200/50 to-gray-200/90 to-80%";
     const colorTextDefault = "text-gray-500 shadow-sm";
     const colorTextWhite = "text-gray-200";
+    const [scrollTop, setScrollTop] = useState(0);
+    const [clientHeight, setClientHeight] = useState(0);
+
+    const navBlur = () => {
+        const path = location.pathname;
+        if (path === '/' || path === '/main') {
+            if (scrollTop > clientHeight) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        };
+    };
 
     const changeColor = () => {
-        if (scrollTop > clientHeight) {
+        if (navBlur()) {
             return colorTextDefault;
-        }else{
+        } else {
             return colorTextWhite;
         }
     };
@@ -40,9 +55,6 @@ export default function NavBar() {
     const updateStore = () => {
         useCartStore.persist.rehydrate()
     };
-
-    const [scrollTop, setScrollTop] = useState(0);
-    const [clientHeight, setClientHeight] = useState(0);
 
     useEffect(() => {
         if (!categoriesList) {
@@ -64,7 +76,7 @@ export default function NavBar() {
     return (
         <div ref={containEl} className={`navbar relative w-full px-6 h-10 flex justify-center ${changeColor()}`}>
 
-            {scrollTop > clientHeight && <div className="absolute bg-gray-200/10 w-full h-full backdrop-blur-sm z-10"></div>}
+            {navBlur() && <div className="absolute bg-gray-200/10 w-full h-full backdrop-blur-sm z-10"></div>}
 
             <div className="w-full max-w-6xl flex items-center justify-between z-50">
                 <div className="flex items-center gap-2">

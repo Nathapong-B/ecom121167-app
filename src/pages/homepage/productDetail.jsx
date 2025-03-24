@@ -103,7 +103,7 @@ export default function ProductDetail() {
                         <div className="font-bold text-2xl">{data.product_name.toUpperCase()}</div>
                         {/* <div ref={elDes} id="elDesc"></div> */}
                         <div ref={elDes} className="text-gray-400">
-                            <span className="text-sm">ประเภท: </span>
+                            <span className="text-sm">หมวดหมู่: </span>
                             {data.Category.category_name}
                         </div>
                         <div className="w-full font-bold">

@@ -12,6 +12,25 @@ const ecomStore = (set, get) => ({
     orders: null,
     pNewArrival: null,
     pBestSeller: null,
+    reportThisMonth: null,
+
+    // report
+    actionReportThisMonth: async (payload, token) => {
+        try {
+            const res = await reportPerDay(payload, token);
+
+            if (res.status === 200) {
+                set({ reportThisMonth: res.data.result });
+                return { success: { message: 'Success' } };
+            } else {
+                return { error: { message: 'Somthing wrong' } };
+            };
+        } catch (err) {
+            console.log(err);
+            if (err?.code === "ERR_NETWORK") return { error: { message: err.message } };
+            return { error: { message: err.response.data.message } };
+        }
+    },
 
     // categories
     actionCallListCategoriesOnHome: async () => {

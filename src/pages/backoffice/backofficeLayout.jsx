@@ -40,6 +40,7 @@ export default function BackOfficeLayout() {
 
     return (
         <div className="flex bg-main gap-0">
+
             {/* side bar */}
             <div className="bg-gray-900 w-1/5 min-w-min text-center pt-5 h-screen">
                 <SideBar />
