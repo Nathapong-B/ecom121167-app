@@ -4,9 +4,10 @@ import { useShallow } from "zustand/react/shallow";
 import { useAuthStore } from "../../../../ecomStore/authStore";
 import { toast } from "react-toastify";
 import LineChart from "./components/lineChart";
-import { fulfillTwoDigit, getDayoneuptoToday, getToDay, hdlTimeDuration, timeConvert } from "../../../util/utilDateTime";
+import { fulfillTwoDigit, getDayoneuptoToday, getToDay, hdlTimeDuration } from "../../../util/utilDateTime";
 import { reportPerDay } from "../../../../api/reportApi";
 import { arrForChartData, dataChart } from "../../../util/utilChart";
+import "./chartConfig"
 
 // format "YYYY-MM-DD"
 export default function Report() {
@@ -68,7 +69,7 @@ export default function Report() {
     const [today, setToday] = useState();
     const [dataInput, setDataInput] = useState({ dayStart: '', dayEnd: '' });
 
-    // console.log(chartData)
+    console.log(chartData)
 
     const fetchData = async (dayStart, dayEnd, status) => {
         const payload = { dayStart, dayEnd };
