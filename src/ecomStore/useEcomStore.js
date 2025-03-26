@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { addCategory, callListCategories, callListCategoriesHome, changeStatusCategory, removeCategory, updateCategory } from "../api/categoryApi";
 import { addProduct, changeStatusProduct, listInactiveProducts, listProducts, listProductsBy, removeProduct, updateProduct } from "../api/productApi";
 import { listOrdersAdmin, removeOrder, updateOrder } from "../api/orderApi";
-import { reportPerDay } from "../api/reportApi";
+import { getCount, reportPerDay } from "../api/reportApi";
 
 const ecomStore = (set, get) => ({
     categories: null,
@@ -14,8 +14,29 @@ const ecomStore = (set, get) => ({
     pNewArrival: null,
     pBestSeller: null,
     reportThisMonth: null,
+    countuser: null,
+    countproduct: null,
+    countcategory: null,
 
     // report
+    actionCountModel: async (model, token) => {
+        try {
+            const res = await getCount(model, token);
+
+            if (res.status === 200) {
+                set({ ['count' + model.toLowerCase()]: res.data.result });
+                return { success: { message: 'Success' } };
+            } else {
+                return { error: { message: 'Somthing wrong' } };
+            };
+        } catch (err) {
+            console.log(err);
+            if (err?.code === "ERR_NETWORK") return { error: { message: err.message } };
+            return { error: { message: err.response.data.message } };
+        };
+    },
+
+
     actionReportThisMonth: async (payload, token) => {
         try {
             const res = await reportPerDay(payload, token);

@@ -7,69 +7,52 @@ import LineChart from "./components/lineChart";
 import { fulfillTwoDigit, getDayoneuptoToday, getToDay, hdlTimeDuration } from "../../../util/utilDateTime";
 import { reportPerDay } from "../../../../api/reportApi";
 import { arrForChartData, dataChart } from "../../../util/utilChart";
-import "./chartConfig"
 
 // format "YYYY-MM-DD"
 export default function Report() {
-    const { token } = useAuthStore(
-        useShallow(s => ({
-            token: s.token,
-        })));
-    const { reportThisMonth, actionReportThisMonth } = useEcomStore(
-        useShallow(s => ({
-            reportThisMonth: s.reportThisMonth,
-            actionReportThisMonth: s.actionReportThisMonth,
-        })));
+    const { token } = useAuthStore(useShallow(s => ({
+        token: s.token,
+    })));
+    const { reportThisMonth, actionReportThisMonth } = useEcomStore(useShallow(s => ({
+        reportThisMonth: s.reportThisMonth,
+        actionReportThisMonth: s.actionReportThisMonth,
+    })));
     const [chartData, setChartData] = useState();
     const [month, setMonth] = useState(() => {
         const dt = new Date().getMonth();
-
         switch (dt) {
             case 0:
-                console.log("มกราคม");
                 return "มกราคม";
             case 1:
-                console.log("กุมภาพันธ์")
                 return "กุมภาพันธ์";
             case 2:
-                console.log("มีนาคม")
                 return "มีนาคม";
             case 3:
-                console.log("เมษายน")
                 return "เมษายน";
             case 4:
-                console.log("พฤษภาคม")
                 return "พฤษภาคม";
             case 5:
-                console.log("มิถุนายน")
                 return "มิถุนายน";
             case 6:
-                console.log("กรกฏาคม")
                 return "กรกฏาคม";
             case 7:
-                console.log("สิงหาคม")
                 return "สิงหาคม";
             case 8:
-                console.log("กันยายน")
                 return "กันยายน";
             case 9:
-                console.log("ตุลาคม")
                 return "ตุลาคม";
             case 10:
-                console.log("พฤศจิกายน")
                 return "พฤศจิกายน";
             case 11:
-                console.log("ธันวาคม")
                 return "ธันวาคม";
             default:
-                console.log(`Sorry, we are out of ${expr}.`);
                 return "Somthing wrong";
         }
     });
     const [today, setToday] = useState();
     const [dataInput, setDataInput] = useState({ dayStart: '', dayEnd: '' });
-
-    console.log(chartData)
+    const [sumTotal, setSumTotal] = useState();
+    const [totalOrders, setTotalOrders] = useState();
 
     const fetchData = async (dayStart, dayEnd, status) => {
         const payload = { dayStart, dayEnd };
@@ -86,8 +69,6 @@ export default function Report() {
         };
     };
 
-
-
     //------------- init time duration
     const hdlInitData = async () => {
         const { nowDate, nowMonth, nowYear } = getToDay();
@@ -97,6 +78,7 @@ export default function Report() {
         // dS , dE (milliseconds)
         const { dS, dE, dRange, error } = hdlTimeDuration(dayStart, dayEnd);
         if (error) return toast.warning('Incomplete data');
+        setTotalOrders(() => reportThisMonth.length);
         return arrForChartData({ dS, dRange, dataApi: reportThisMonth });
     };
 
@@ -122,6 +104,7 @@ export default function Report() {
 
         if (res.status === 200) {
             const dataApi = res.data.result;
+            setTotalOrders(() => dataApi.length);
             return arrForChartData({ dS, dRange, dataApi });
         } else {
             // console.log(res.message);
@@ -137,10 +120,9 @@ export default function Report() {
             arrData = await hdlInitData();
         } else {
             arrData = await hdlCustomData();
-            console.log('arrData custom : ', arrData)
-            //setting data
         };
-        setChartData(() => dataChart({ arrData, bgcolor: 'white', bdcolor: 'red' }))
+        setSumTotal(() => arrData.reduce((acc, cur) => acc += cur.sum, 0));
+        setChartData(() => dataChart({ arrData, bgcolor: 'white', bdcolor: 'red' }));
     };
 
     useEffect(() => {
@@ -164,66 +146,61 @@ export default function Report() {
     };
 
 
-
     const debug = (value) => {
-        // const dSplit = new Date(reportThisMonth[1].create_date).toLocaleDateString('th-TH', { year: "numeric", month: "2-digit", day: "2-digit", });
-        // const dSplit = new Date(reportThisMonth[1].create_date).toISOString().split('T', 1);
-        // const str = dSplit[0].slice(5)
-        // console.log(dSplit)
-
-        // const hrs7 = timeConvert(7, 'hrs', 'mil'); // return millisecond (7hrs)
-        // const t = new Date(reportThisMonth[1].create_date).getTime();
-        // const toLocalTz = new Date(reportThisMonth[1].create_date).getTime() + hrs7;
-        // console.log(t)
-        // console.log(toLocalTz)
-
-        console.log(new Date(reportThisMonth[1].create_date).getTime())
-        const t = new Date(reportThisMonth[1].create_date).getTime()
-        console.log(new Date(t).getTime())
-        const tz = new Date(t).getTime()
-        console.log(new Date(tz))
-
-        // const dt = new Date(reportThisMonth[1].create_date);
-        // const d = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate();
-        // const milD = new Date(d).getTime(); //return milliseconds
-        // console.log(dt)
-        // console.log(d)
-        // console.log(milD)
+        console.log(sumTotal.toLocaleString())
     }
 
     return (
-        <div className="w-full flex flex-col lg:flex-row gap-2">
-            <div className="w-full lg:w-8/12 bg-white shadow-lg p-4">
-                {/* <div>ยอดขายประจำเดือน xx</div> */}
-                <div>
-                    <label className="me-2">start</label>
-                    <input type="date" name="dayStart" max={today} className="border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
-                    <label className="me-2">end</label>
-                    <input type="date" name="dayEnd" max={today} className="border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
-
-                    <button className="ms-2 bo-btn-add bg-green-500" onClick={hdlWatch}>เลือกดู</button>
+        <div className="w-full">
+            <div className="bg-gradient-to-r from-white/0 from-30% to-white to-50% p-2 pe-8 mb-2 flex justify-between">
+                <div className="font-bold text-xl text-green-600">
+                    :: รายงานยอดขาย
                 </div>
-                <div>
-                    <button className="bo-btn-add bg-green-500" onClick={debug}>debug</button>
+                <div className="flex items-center justify-end">
+                    <span className="me-4 text-xs text-gray-500">เลือกดูตามช่วงเวลา</span>
+                    {/* <label className="me-2">start</label> */}
+                    <input type="date" name="dayStart" max={today} className="px-2 border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
+                    <span className="mx-4">-</span>
+                    {/* <label className="me-2">end</label> */}
+                    <input type="date" name="dayEnd" max={today} className="px-2 border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
+
+                    <button className="w-7 h-7 ms-4 bg-sky-400 rounded rounded-full hover:text-white hover:bg-sky-500" onClick={hdlWatch}>
+                        <i className="fa-solid fa-magnifying-glass fa-xs"></i>
+                    </button>
+                </div>
+                {/* <button className="bo-btn-add bg-green-500" onClick={debug}>debug</button> */}
+            </div>
+
+            <div className="w-full flex flex-col xl:flex-row gap-2">
+                <div className="w-full xl:w-2/12 flex flex-wrap gap-2">
+                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-green-500">
+                        <div className="ps-2 text-gray-500">ยอดรวม</div>
+                        <div className="text-center text-3xl">
+                            <i className="fa-solid fa-baht-sign me-2"></i>
+                            {sumTotal?.toLocaleString()}
+                        </div>
+                    </div>
+                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-yellow-500">
+                        <div className="ps-2 text-gray-500">คำสั่งซื้อ</div>
+                        <div className="text-center text-3xl">{totalOrders?.toLocaleString()}</div>
+                    </div>
+                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-orange-500">
+                        <div className="ps-2">-</div>
+                        <div className="text-center text-3xl">-</div>
+                    </div>
+                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-red-500">
+                        <div className="ps-2">-</div>
+                        <div className="text-center text-3xl">-</div>
+                    </div>
                 </div>
 
-                <div className="w-full h-max">
-                    {chartData && <LineChart chartData={chartData} desc={`Monthly sales : ${month}`} title={"ยอดขายประจำเดือน"} />}
+                <div className="w-full xl:w-10/12 bg-white shadow-lg p-4">
+                    <div className="w-full h-max">
+                        {chartData && <LineChart chartData={chartData} desc={`รายงานยอดขาย`} />}
+                    </div>
                 </div>
             </div>
 
-            <div className="w-full lg:w-4/12 flex flex-wrap gap-2">
-                {/* <div className="flex-1 lg:w-full">
-                    <div className="bg-white shadow-lg h-full">1</div>
-                </div>
-                <div className="flex-1 lg:w-full">
-                    <div className="bg-white shadow-lg ">2</div>
-                </div> */}
-                <div className="bg-white shadow-lg grow lg:shrink lg:w-full">1</div>
-                <div className="bg-white shadow-lg grow lg:shrink lg:w-full">2</div>
-                <div className="bg-white shadow-lg grow lg:shrink lg:w-full">3</div>
-                <div className="bg-white shadow-lg grow lg:shrink lg:w-full">4</div>
-            </div>
         </div>
     )
 }
