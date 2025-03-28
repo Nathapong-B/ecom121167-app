@@ -14,39 +14,9 @@ export default function MainPage() {
     const scrollRestoration = history.scrollRestoration;
     const mainRef = useRef();
     const hdlOutletContext = useOutletContext();
-    // const { products, pNewArrival, pBestSeller } = useEcomStore(useShallow(s => ({
-    //     products: s.products,
-    //     pNewArrival: s.pNewArrival,
-    //     pBestSeller: s.pBestSeller
-    // })));
-    // const [first,setFirst]=useState(true);
-    // const [componentsLoad,setComponentsLoad]=useState({recommend:''})
 
-    // document.title = 'Home';
-
-    // let decimal = ((((clientHeightEl - scrollTopEl) * 100) / clientHeightEl) / 100).toFixed(2); // toFixed() จำนวนตำแหน่งทศนิยม
-
-    // จัดการความสูงของ main component
-    // const hdlMaincontentsHeight = () => {
-    //     const elH = mainRef.current.clientHeight - clientHeightEl + 80;
-    //     root.style.setProperty('--containersHeight', `${elH}px`);
-    //     mainRef.current.classList.add(`containers-height`);
-    // };
-
-    // console.log(document.documentElement.scrollHeight)
-    // console.log(document.documentElement.clientHeight)
-    // console.log(mainRef.current.clientHeight)
     useEffect(() => {
         hdlOutletContext('Home')
-        // if(first){
-        // ไม่ต้องให้คืนค่า scroll อัตโนมัติ เมื่อมีการรีโหลดหน้าเพจ เพื่อให้จัดการ scrollTop ด้วยตนเอง
-        // if (scrollRestoration === "auto") {
-        //     history.scrollRestoration = "manual";
-        // };
-
-        // document.documentElement.scrollTop = 0;
-
-        // root.style.setProperty('--hscreen', `0px`);
 
         window.addEventListener('scroll', () => {
             const {
@@ -57,48 +27,17 @@ export default function MainPage() {
             setScrollTop(() => scrollTop);
             setClientHeight(() => clientHeight);
         });
-
-        // setFirst(false)
-        // };
-        // hdlMaincontentsHeight();
-
     }, []);
-    // }, [componentsLoad]);
-    // }, [products, pNewArrival, pBestSeller]);
-
-    // const headersDisplayNone = () => {
-    //     if (decimal < 0.9) {
-    //         root.style.setProperty('--hscreen', `-${clientHeightEl - 80}px`);
-    //     } else if (decimal > 0.9) {
-    //         root.style.setProperty('--hscreen', `0px`);
-    //         // document.documentElement.scrollTop = 0;
-    //     }
-    //     return;
-    // };
 
     const stickyTop = () => {
         const pt = scrollTopEl - clientHeightEl;
-        // const pt = scrollTopEl - 100;
         if (pt > 0) {
             return pt;
         }
         return 0;
     };
 
-    // root.style.setProperty('--percentVh', `${decimal}`);
     root.style.setProperty('--stickyTop', `${(stickyTop())}px`);
-    // headersDisplayNone();
-
-    // const hdlComponentsLoad=(data)=>{
-    //     const key= Object.keys(data)
-    //     console.log(!componentsLoad[key] ? 'yes' : 'no')
-
-    //     if(!componentsLoad[key]) setComponentsLoad(data)
-    // setComponentsLoad(prev=>{
-    //     if(prev[key])
-    // });
-    // };
-    // console.log(componentsLoad)
 
     return (
         <div ref={mainRef} className="flex flex-wrap justify-center relative h-max">
@@ -119,7 +58,7 @@ export default function MainPage() {
                         </div>
 
                         <div className="block-display">
-                            <hr className="my-6 border-2 border-red-500"></hr>
+                            <div className="my-6 h-[2px] bg-gradient-to-r from-red-500/0 via-gray-500 to-red-500/0"></div>
                         </div>
 
                         <div className="block-display">
@@ -127,7 +66,7 @@ export default function MainPage() {
                         </div>
 
                         <div className="block-display">
-                            <hr className="my-6 border-2 border-red-500"></hr>
+                            <div className="my-6 h-[2px] bg-gradient-to-r from-red-500/0 via-gray-500 to-red-500/0"></div>
                         </div>
 
                         <div className="block-display">
@@ -135,7 +74,7 @@ export default function MainPage() {
                         </div>
 
                         <div className="block-display">
-                            <hr className="my-6 border-2 border-red-500"></hr>
+                            <div className="my-6 h-[2px] bg-gradient-to-r from-red-500/0 via-gray-500 to-red-500/0"></div>
                         </div>
 
                         <div className="block-display">

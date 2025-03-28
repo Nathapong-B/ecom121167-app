@@ -7,6 +7,7 @@ import LineChart from "./components/lineChart";
 import { fulfillTwoDigit, getDayoneuptoToday, getToDay, hdlTimeDuration } from "../../../util/utilDateTime";
 import { reportPerDay } from "../../../../api/reportApi";
 import { arrForChartData, dataChart } from "../../../util/utilChart";
+import { sumCost } from "../../../util/utilReport";
 
 // format "YYYY-MM-DD"
 export default function Report() {
@@ -51,8 +52,9 @@ export default function Report() {
     });
     const [today, setToday] = useState();
     const [dataInput, setDataInput] = useState({ dayStart: '', dayEnd: '' });
-    const [sumTotal, setSumTotal] = useState();
-    const [totalOrders, setTotalOrders] = useState();
+    const [sumTotal, setSumTotal] = useState(0);
+    const [totalOrders, setTotalOrders] = useState(0);
+    const [cost, setCost] = useState(0);
 
     const fetchData = async (dayStart, dayEnd, status) => {
         const payload = { dayStart, dayEnd };
@@ -125,11 +127,18 @@ export default function Report() {
         setChartData(() => dataChart({ arrData, bgcolor: 'white', bdcolor: 'red' }));
     };
 
+    const calNetRevenue = (total, cost) => {
+        return total - cost;
+    };
+
+    const hdlWatch = () => {
+        hdlChartData();
+    };
+
     useEffect(() => {
         if (!reportThisMonth) {
             const { dayStart, dayEnd } = getDayoneuptoToday();
             fetchData(dayStart, dayEnd);
-            // hdlChartData();
         } else {
             hdlChartData();
         };
@@ -138,17 +147,9 @@ export default function Report() {
             const { nowDate, nowMonth, nowYear } = getToDay();
             return nowYear + '-' + fulfillTwoDigit(nowMonth) + '-' + fulfillTwoDigit(nowDate);
         });
+
+        reportThisMonth && setCost(() => reportThisMonth.reduce((acc, cur) => acc += sumCost(cur), 0));
     }, [reportThisMonth]);
-    // }, [reportThisMonth, dataInput]);
-
-    const hdlWatch = () => {
-        hdlChartData();
-    };
-
-
-    const debug = (value) => {
-        console.log(sumTotal.toLocaleString())
-    }
 
     return (
         <div className="w-full">
@@ -158,39 +159,42 @@ export default function Report() {
                 </div>
                 <div className="flex items-center justify-end">
                     <span className="me-4 text-xs text-gray-500">เลือกดูตามช่วงเวลา</span>
-                    {/* <label className="me-2">start</label> */}
                     <input type="date" name="dayStart" max={today} className="px-2 border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
                     <span className="mx-4">-</span>
-                    {/* <label className="me-2">end</label> */}
                     <input type="date" name="dayEnd" max={today} className="px-2 border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
 
                     <button className="w-7 h-7 ms-4 bg-sky-400 rounded rounded-full hover:text-white hover:bg-sky-500" onClick={hdlWatch}>
                         <i className="fa-solid fa-magnifying-glass fa-xs"></i>
                     </button>
                 </div>
-                {/* <button className="bo-btn-add bg-green-500" onClick={debug}>debug</button> */}
             </div>
 
             <div className="w-full flex flex-col xl:flex-row gap-2">
                 <div className="w-full xl:w-2/12 flex flex-wrap gap-2">
                     <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-green-500">
-                        <div className="ps-2 text-gray-500">ยอดรวม</div>
-                        <div className="text-center text-3xl">
+                        <div className="ps-2 text-xs text-gray-500">ยอดรวม</div>
+                        <div className="text-center text-3xl text-green-600">
                             <i className="fa-solid fa-baht-sign me-2"></i>
-                            {sumTotal?.toLocaleString()}
+                            {sumTotal.toLocaleString()}
                         </div>
                     </div>
-                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-yellow-500">
-                        <div className="ps-2 text-gray-500">คำสั่งซื้อ</div>
-                        <div className="text-center text-3xl">{totalOrders?.toLocaleString()}</div>
-                    </div>
-                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-orange-500">
-                        <div className="ps-2">-</div>
-                        <div className="text-center text-3xl">-</div>
+                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-sky-500">
+                        <div className="ps-2 text-xs text-gray-500">คำสั่งซื้อ</div>
+                        <div className="text-center text-sky-600 text-3xl">{totalOrders.toLocaleString()}</div>
                     </div>
                     <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-red-500">
-                        <div className="ps-2">-</div>
-                        <div className="text-center text-3xl">-</div>
+                        <div className="ps-2 text-xs text-gray-500">ต้นทุน</div>
+                        <div className="text-center text-3xl text-red-500">
+                            <i className="fa-solid fa-baht-sign me-2"></i>
+                            {cost.toLocaleString()}
+                        </div>
+                    </div>
+                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-green-600">
+                        <div className="ps-2 text-xs text-gray-500">กำไร</div>
+                        <div className="text-center text-3xl text-green-600">
+                            <i className="fa-solid fa-baht-sign me-2"></i>
+                            {calNetRevenue(sumTotal, cost).toLocaleString()}
+                        </div>
                     </div>
                 </div>
 

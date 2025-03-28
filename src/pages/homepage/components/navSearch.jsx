@@ -56,7 +56,7 @@ export default function NavSearch() {
             <form onSubmit={hdlSubmit} className="relative flex items-center">
                 <div className="flex h-7 w-max items-center rounded rounded-full bg-white box-shadow-normal overflow-hidden px-2 has-[:focus]:text-sky-500 has-[:focus]:ring-2" >
                     <label htmlFor="search" id="lbl_search" onClick={(e) => hdlOnClick(e)} className={`text-11px  px-1 rounded rounded-full ${inputHide ? '' : 'box-shadow-normal'} cursor-pointer select-none`}>
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <i className="fa-solid fa-magnifying-glass"></i>
                     </label>
                     <input ref={inputRef} id="search" placeholder="ป้อนชื่อสินค้า" onChange={(e) => setKeyword(e.target.value)} className={`${!inputHide ? 'ms-2 w-36' : 'w-0'} ring-none outline-none text-sm text-gray-500 transition-all duration-300`}></input>
                 </div>

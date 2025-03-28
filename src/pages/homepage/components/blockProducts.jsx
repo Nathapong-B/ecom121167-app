@@ -34,7 +34,7 @@ export default function BlockProducts(props) {
 
                                 <div className="pe-2">
                                     <button onClick={() => addToCart(e)} className="bo-btn-add bg-sky-500 w-max">
-                                        <i class="fa-solid fa-cart-arrow-down fa-sm"></i>
+                                        <i className="fa-solid fa-cart-arrow-down fa-sm"></i>
                                     </button>
                                 </div>
 

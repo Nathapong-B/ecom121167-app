@@ -141,7 +141,7 @@ export default function NavBar() {
                         <div className="text-nav flex " onMouseOver={() => setBasketBox(true)} onMouseOut={() => setBasketBox(false)}>
                             <Link to={'main/cart'}>
                                 <div>
-                                    <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                                    <i className="fa-solid fa-cart-shopping fa-lg"></i>
                                 </div>
                                 <div className="absolute -top-1 -right-2 bg-red-500 rounded rounded-full text-xs text-gray-200 h-4 w-4 flex justify-center items-center">
                                     <div>

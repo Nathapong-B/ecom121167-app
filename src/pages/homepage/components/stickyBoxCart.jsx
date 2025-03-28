@@ -21,7 +21,7 @@ export default function StickyBoxCart() {
         <Card style={"bg-gray-100"}>
             <div className="w-10/12 m-auto font-bold pt-2 text-gray-500 hover:text-sky-500">
                 <Link to={'/main/cart'}>
-                    <i class="fa-solid fa-cart-shopping me-2"></i>
+                    <i className="fa-solid fa-cart-shopping me-2"></i>
                     สินค้าในตะกร้า
                 </Link>
             </div>

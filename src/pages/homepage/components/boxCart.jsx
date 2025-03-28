@@ -26,7 +26,7 @@ export default function BoxCart(props) {
                     <ul>
                         {cart.map((e, i) => (
                             <li key={i}>
-                                <div className="min-w-[400px] max-w-[400px] flex">
+                                <div className="min-w-[300px] max-w-[300px] flex text-sm">
                                     <div className="flex-1 flex gap-2 min-w-[200px]">
                                         <div className="h-8 min-w-[25px] max-w-[25px]">
                                             <img src={getImgPosition0(e.Image)[0].url} onClick={() => viewProductDetail(e)} className="object-contain cursor-pointer"></img>

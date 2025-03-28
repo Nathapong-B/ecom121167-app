@@ -25,21 +25,21 @@ export default function Overview() {
         <>
             <div className="flex gap-4">
                 {/* overview */}
-                <div className="grow bg-white text-center py-4 border-t-4 hover:border-t-4 hover:border-t-red-500 cursor-pointer">
+                <div className="group grow shadow-lg bg-white text-center py-4 border-t-4 rounded rounded-xl hover:border-t-4 hover:border-t-red-500 hover:text-red-500 hover:shadow-none">
                     <Link to={'/backoffice/categories'}>
-                        <div className="text-gray-500">All categories</div>
+                        <div className="text-gray-500 text-sm group-hover:text-red-500">All categories</div>
                         <div className="text-3xl">{countcategory?.toLocaleString()}</div>
                     </Link>
                 </div>
-                <div className="grow bg-white text-center py-4 border-t-4 hover:border-t-4 hover:border-t-red-500">
+                <div className="group grow shadow-lg bg-white text-center py-4 border-t-4 rounded rounded-xl hover:border-t-4 hover:border-t-red-500 hover:text-red-500 hover:shadow-none">
                     <Link to={'/backoffice/product'}>
-                        <div className="text-gray-500">All products</div>
+                        <div className="text-gray-500 text-sm group-hover:text-red-500">All products</div>
                         <div className="text-3xl">{countproduct?.toLocaleString()}</div>
                     </Link>
                 </div>
-                <div className="grow bg-white text-center py-4 border-t-4 hover:border-t-4 hover:border-t-red-500">
+                <div className="group grow shadow-lg bg-white text-center py-4 border-t-4 rounded rounded-xl hover:border-t-4 hover:border-t-red-500 hover:text-red-500 hover:shadow-none">
                     <Link to={'/backoffice/user'}>
-                        <div className="text-gray-500">All member</div>
+                        <div className="text-gray-500 text-sm group-hover:text-red-500">All member</div>
                         <div className="text-3xl">{countuser?.toLocaleString()}</div>
                     </Link>
                 </div>
