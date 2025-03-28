@@ -10,15 +10,17 @@ const authStore = (set, get) => ({
     refToken: null,
     user: null,
     profile: null,
+    usersactive: null,
+    usersinactive: null,
 
     actionRefreshToken: async () => {
         try {
             const token = get().token;
             const tokenExp = tokenExpire(token);
             const tmin = Math.floor(tokenExp.expIn / 60);
-            
+
             if (tmin > 1) return { success: true };
-            
+
             const ref_Token = get().refToken;
             const refTokenExp = tokenExpire(ref_Token);
             const rmin = Math.floor(refTokenExp.expIn / 60);
@@ -71,7 +73,8 @@ const authStore = (set, get) => ({
             const res = await listUsers(statusby, count, token);
 
             if (res.status === 200) {
-                return res;
+                set({ ['users' + statusby]: res.data.result });
+                return { success: { message: 'Success' } };
             } else {
                 return { error: { message: 'Somthing wrong' } };
             };
@@ -79,6 +82,14 @@ const authStore = (set, get) => ({
             console.log(err)
             return { error: { message: err.response.data.message } };
         }
+    },
+
+    actionClearUsers: () => {
+        console.log('clear user')
+        set({
+            usersactive: null,
+            usersinactive: null
+        });
     },
 
     actionChangeStatusUser: async (id, status, token) => {

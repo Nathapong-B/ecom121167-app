@@ -6,11 +6,14 @@ import Swal from "sweetalert2";
 
 export default function ListUsers(props) {
     const { showActive } = props;
-    const { token, listUsers, changeStatus } = useAuthStore(
+    const { token, callListUsers, changeStatus, usersactive, usersinactive, actionClearUsers } = useAuthStore(
         useShallow(s => ({
             token: s.token,
-            listUsers: s.actionListUsers,
+            callListUsers: s.actionListUsers,
             changeStatus: s.actionChangeStatusUser,
+            usersactive: s.usersactive,
+            usersinactive: s.usersinactive,
+            actionClearUsers: s.actionClearUsers
         }))
     );
     const [dataListUser, setDataLIstUser] = useState([]);
@@ -18,14 +21,29 @@ export default function ListUsers(props) {
     // email, role, status, first_name, last_name, address, phone, profile_image, last_update, create_date,
 
     const hdlCallListUsers = async (status) => {
-        const res = await listUsers(status, 6, token);
+        if (status === 'active') {
+            if (!usersactive) {
+                const res = await callListUsers(status, 6, token);
+                if (res.error) {
+                    toast.error(res.error.message)
+                    console.log(res)
+                };
+            } else {
+                return setDataLIstUser(usersactive ?? []);
+            };
+        };
 
-        if (res.status === 200) {
-            setDataLIstUser(res.data.result);
-        } else if (res.error) {
-            toast.error(res.error.message)
-            console.log(res)
-        }
+        if (status === 'inactive') {
+            if (!usersinactive) {
+                const res = await callListUsers(status, 6, token);
+                if (res.error) {
+                    toast.error(res.error.message)
+                    console.log(res)
+                };
+            } else {
+                return setDataLIstUser(usersinactive ?? []);
+            };
+        };
     };
 
     const hdlChangeStatus = async (item) => {
@@ -65,7 +83,9 @@ export default function ListUsers(props) {
         } else {
             hdlCallListUsers('inactive');
         };
-    }, [showActive]);
+
+        window.addEventListener('beforeunload', actionClearUsers)
+    }, [showActive,usersactive,usersinactive]);
 
     return (
         <div>
