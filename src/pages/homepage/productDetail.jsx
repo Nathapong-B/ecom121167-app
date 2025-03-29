@@ -23,8 +23,6 @@ export default function ProductDetail() {
     const [qty, setQty] = useState(1);
     const nav = useNavigate();
 
-    // document.title = data?.product_name ? data.product_name.toUpperCase() : 'Product detail';
-
     const fetchData = async () => {
         const res = await getProductDetail(pid, store);
 
@@ -48,14 +46,20 @@ export default function ProductDetail() {
     };
 
     const hdlIncreaseDecreaseQty = (action) => {
-        const { name } = action.target;
+        const { id } = action.target;
 
-        if (name === 'increase') {
-            setQty(prev => prev >= data.stock ? data.stock : prev + 1);
+        if (id === 'increase') {
+            setQty(prev => {
+                if (prev >= data.stock) return data.stock;
+                return prev + 1;
+            });
         };
 
-        if (name === 'decrease') {
-            setQty(prev => prev <= 1 ? 1 : prev - 1)
+        if (id === 'decrease') {
+            setQty(prev => {
+                if (prev <= 1) return 1;
+                return prev - 1;
+            });
         };
     };
 
@@ -67,8 +71,6 @@ export default function ProductDetail() {
         nav('/main/order');
     };
 
-    data?.product_name ? hdlOutletContext(data.product_name.toUpperCase()) : hdlOutletContext('Product detail');
-
     useEffect(() => {
         // ไม่ต้องให้คืนค่า scroll อัตโนมัติ เมื่อมีการรีโหลดหน้าเพจ เพื่อให้จัดการ scrollTop ด้วยตนเอง
         if (scrollRestoration === "auto") {
@@ -77,18 +79,14 @@ export default function ProductDetail() {
 
         window.document.documentElement.scrollTop = 0;
 
+        data?.product_name ? hdlOutletContext(data.product_name.toUpperCase()) : hdlOutletContext('Product detail');
+
         fetchData();
         setQty(1);
     }, [pid]);
 
-    if (data && elDes.current) {
-        // elDes.current.innerText = data.description
-        // elDes.current.innerHTML=data.description
-    };
-
     return (
         <div className="w-full max-w-6xl m-auto px-2">
-            {/* <div className="w-full max-w-4xl m-auto px-2"> */}
 
             {data
                 ? <div className="w-full min-h-max m-auto mt-6 flex flex-col md:gap-6 md:flex-row md:flex-wrap">
@@ -99,9 +97,7 @@ export default function ProductDetail() {
 
                     {/* product description */}
                     <div className="relative w-full md:flex-1 max-h-[500px] flex flex-col gap-4 mx-auto p-2 rounded">
-                        {/* <div className="relative w-full md:w-2/5 flex flex-col mx-auto p-2 bg-white rounded"> */}
                         <div className="font-bold text-2xl">{data.product_name.toUpperCase()}</div>
-                        {/* <div ref={elDes} id="elDesc"></div> */}
                         <div ref={elDes} className="text-gray-400">
                             <span className="text-sm">หมวดหมู่: </span>
                             {data.Category.category_name}
@@ -120,12 +116,12 @@ export default function ProductDetail() {
                                 </div>
 
                                 <div className="flex min-w-[100px]">
-                                    <button name="decrease" onClick={(e) => hdlIncreaseDecreaseQty(e)} className="rounded-s border border-red-500 w-max px-2 text-center hover:bg-red-500 hover:text-white">
-                                        <i class="fa-solid fa-minus"></i>
+                                    <button id="decrease" onClick={(e) => hdlIncreaseDecreaseQty(e)} className="rounded-s border border-red-500 w-max px-2 text-center hover:bg-red-500 hover:text-white">
+                                        <i id="decrease" className="fa-solid fa-minus"></i>
                                     </button>
                                     <div className="flex-1 text-center bg-gray-300">{qty}</div>
-                                    <button name="increase" onClick={(e) => hdlIncreaseDecreaseQty(e)} className="rounded-e border border-red-500 w-max px-2 text-center hover:bg-red-500 hover:text-white">
-                                        <i class="fa-solid fa-plus"></i>
+                                    <button id="increase" onClick={(e) => hdlIncreaseDecreaseQty(e)} className="rounded-e border border-red-500 w-max px-2 text-center hover:bg-red-500 hover:text-white">
+                                            <i id="increase" className="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
 
@@ -136,21 +132,16 @@ export default function ProductDetail() {
 
                             </div>
 
-
                             <div className="flex flex-wrap gap-2 text-center mt-4 w-full min-w-[200px]">
                                 <button className="bo-btn-add bg-red-500 flex-1 min-w-[200px] py-2" onClick={() => hdlBuynow(data, qty)}>ซื้อเลย</button>
                                 <button className="bo-btn-add bg-sky-500 flex-1 min-w-[200px] py-2" onClick={() => hdlAddToCart(data, qty)}>
-                                    <i class="fa-solid fa-cart-arrow-down fa-lg me-2"></i>
+                                    <i className="fa-solid fa-cart-arrow-down fa-lg me-2"></i>
                                     เพิ่มลงตะกร้า
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    {/* <div className="flex flex-col w-full h-[300px] lg:min-w-[200px] lg:max-w-[200px] p-2 bg-white rounded">
-                        <span>คุณอาจชอบ</span>
-                        <BlockProducts/>
-                    </div> */}
                 </div>
                 : <div className="w-full h-[400px] mt-6 rounded bg-gray-300 flex items-center">
 
