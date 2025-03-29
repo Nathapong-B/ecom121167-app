@@ -13,8 +13,13 @@ export default function CompletePage() {
     return (
         <div className="w-full max-w-4xl m-auto">
 
-            <div className="w-full h-52 m-auto content-center my-4 rounded rounded-lg box-shadow-normal">
+            <div className="w-full h-max m-auto content-center my-4 py-8 rounded rounded-lg box-shadow-normal">
                 <div className="text-center font-bold text-3xl">PAYMENT COMPLETED</div>
+                <div className="py-4 my-4 text-6xl text-green-600">
+                    <div className="w-[150px] h-[150px] m-auto flex justify-center items-center ronded rounded-full border-2 border-green-500">
+                        <i className="fa-solid fa-check fa-2xl"></i>
+                    </div>
+                </div>
                 <div className="text-center my-2 text-sm">
                     {/* <Link to={'/profile/my-purchase'}> */}
                     <Link to={{
