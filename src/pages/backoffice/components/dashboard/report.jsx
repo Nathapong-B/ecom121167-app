@@ -55,6 +55,7 @@ export default function Report() {
     const [sumTotal, setSumTotal] = useState(0);
     const [totalOrders, setTotalOrders] = useState(0);
     const [cost, setCost] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchData = async (dayStart, dayEnd, status) => {
         const payload = { dayStart, dayEnd };
@@ -101,17 +102,20 @@ export default function Report() {
         const { dS, dE, dRange, error } = hdlTimeDuration(dayStart, dayEnd);
         if (error) return toast.warning('Incomplete data');
 
+        setIsLoading(true);
         // ดึงข้อมูลจากเซิร์ฟเวอร์
         const res = await fetchData(dayStart, dayEnd, 'custom');
 
         if (res.status === 200) {
             const dataApi = res.data.result;
             setTotalOrders(() => dataApi.length);
+            setIsLoading(false);
             return arrForChartData({ dS, dRange, dataApi });
         } else {
             // console.log(res.message);
             toast.error(res.message);
         };
+        setIsLoading(false);
     };
 
     const hdlChartData = async () => {
@@ -163,9 +167,21 @@ export default function Report() {
                     <span className="mx-4">-</span>
                     <input type="date" name="dayEnd" max={today} className="px-2 border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
 
-                    <button className="w-7 h-7 ms-4 bg-sky-400 rounded rounded-full hover:text-white hover:bg-sky-500" onClick={hdlWatch}>
-                        <i className="fa-solid fa-magnifying-glass fa-xs"></i>
-                    </button>
+                    <div className="ms-4">
+                        {isLoading
+                            ? <div className="w-7 h-7 py-2 flex">
+                                <div className="relative">
+                                    <div className="dot1"></div>
+                                    <div className="dot2"></div>
+                                    <div className="dot3"></div>
+                                </div>
+                            </div>
+                            : <button disabled={isLoading} className="w-7 h-7 bg-sky-300 rounded rounded-full border border-sky-500 text-sky-600 hover:text-white hover:bg-sky-500 hover:border-white btn-disabled" onClick={hdlWatch}>
+                                <i className="fa-solid fa-magnifying-glass fa-xs"></i>
+                            </button>
+                        }
+                    </div>
+
                 </div>
             </div>
 
