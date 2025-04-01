@@ -59,33 +59,18 @@ export default function Report() {
 
     const fetchData = async (dayStart, dayEnd, status) => {
         const payload = { dayStart, dayEnd };
+
         if (status === 'custom') {
-            try {
-                return await reportPerDay(payload, token);
-            } catch (err) {
-                if (err.code === "ERR_NETWORK") return { message: err.message };
-                return { status: err.status, message: err.response.data.message };
-            }
+            const res = await actionReportThisMonth(payload, token);
+            if (res.error) return toast.error(res.error.message);
+            return res;
         } else {
             const res = await actionReportThisMonth(payload, token);
             if (res.error) return toast.error(res.error.message);
+            return res;
         };
     };
 
-    //------------- init time duration
-    const hdlInitData = async () => {
-        const { nowDate, nowMonth, nowYear } = getToDay();
-        const dayStart = nowYear + '-' + fulfillTwoDigit(nowMonth) + '-01';
-        const dayEnd = nowYear + '-' + fulfillTwoDigit(nowMonth) + '-' + fulfillTwoDigit(nowDate);
-
-        // dS , dE (milliseconds)
-        const { dS, dE, dRange, error } = hdlTimeDuration(dayStart, dayEnd);
-        if (error) return toast.warning('Incomplete data');
-        setTotalOrders(() => reportThisMonth.length);
-        return arrForChartData({ dS, dRange, dataApi: reportThisMonth });
-    };
-
-    //------------- custom time duration
     const hdlDateInput = (data) => {
         const { name, value } = data.target;
         setDataInput(prev => ({
@@ -94,7 +79,48 @@ export default function Report() {
         }));
     };
 
-    const hdlCustomData = async () => {
+    const hdlPreData = async (input_data) => {
+        if (!input_data) {
+            //------------- init time duration
+            const { dayStart, dayEnd } = getDayoneuptoToday();
+
+            // dS , dE (milliseconds)
+            const { dS, dE, dRange, error } = hdlTimeDuration(dayStart, dayEnd);
+            if (error) return toast.warning('Incomplete data');
+
+            return arrForChartData({ dS, dRange, dataApi: reportThisMonth });
+        } else {
+            //------------- custom time duration
+            const { dayStart, dayEnd } = input_data;
+            if (!dayStart || !dayEnd) return toast.warning('Incomplete data');
+
+            // dS , dE (milliseconds)
+            const { dS, dE, dRange, error } = hdlTimeDuration(dayStart, dayEnd);
+            if (error) return toast.warning('Incomplete data');
+
+            return arrForChartData({ dS, dRange, dataApi: reportThisMonth });
+        };
+
+    };
+
+    const hdlChartData = async () => {
+        const { dayStart, dayEnd } = dataInput;
+        let arrData;
+
+        if (!dayStart || !dayEnd) {
+            arrData = await hdlPreData();
+        } else {
+            arrData = await hdlPreData(dataInput);
+        };
+        setSumTotal(() => arrData.reduce((acc, cur) => acc += cur.sum, 0));
+        setChartData(() => dataChart({ arrData, bgcolor: 'white', bdcolor: 'red' }));
+    };
+
+    const calNetRevenue = (total, cost) => {
+        return total - cost;
+    };
+
+    const hdlWatch = async () => {
         const { dayStart, dayEnd } = dataInput;
         if (!dayStart || !dayEnd) return toast.warning('Incomplete data');
 
@@ -105,12 +131,11 @@ export default function Report() {
         setIsLoading(true);
         // ดึงข้อมูลจากเซิร์ฟเวอร์
         const res = await fetchData(dayStart, dayEnd, 'custom');
+        if (res.error) return toast.error(res.error.message);
 
-        if (res.status === 200) {
-            const dataApi = res.data.result;
-            setTotalOrders(() => dataApi.length);
+        if (res.success) {
             setIsLoading(false);
-            return arrForChartData({ dS, dRange, dataApi });
+            return arrForChartData({ dS, dRange, dataApi: reportThisMonth });
         } else {
             // console.log(res.message);
             toast.error(res.message);
@@ -118,25 +143,9 @@ export default function Report() {
         setIsLoading(false);
     };
 
-    const hdlChartData = async () => {
-        const { dayStart, dayEnd } = dataInput;
-        let arrData;
-
-        if (!dayStart || !dayEnd) {
-            arrData = await hdlInitData();
-        } else {
-            arrData = await hdlCustomData();
-        };
-        setSumTotal(() => arrData.reduce((acc, cur) => acc += cur.sum, 0));
-        setChartData(() => dataChart({ arrData, bgcolor: 'white', bdcolor: 'red' }));
-    };
-
-    const calNetRevenue = (total, cost) => {
-        return total - cost;
-    };
-
-    const hdlWatch = () => {
-        hdlChartData();
+    const hdlSetState = () => {
+        setCost(() => reportThisMonth.reduce((acc, cur) => acc += sumCost(cur), 0));
+        setTotalOrders(() => reportThisMonth.length);
     };
 
     useEffect(() => {
@@ -152,25 +161,26 @@ export default function Report() {
             return nowYear + '-' + fulfillTwoDigit(nowMonth) + '-' + fulfillTwoDigit(nowDate);
         });
 
-        reportThisMonth && setCost(() => reportThisMonth.reduce((acc, cur) => acc += sumCost(cur), 0));
+        reportThisMonth && hdlSetState();
     }, [reportThisMonth]);
 
     return (
         <div className="w-full">
             <div className="bg-gradient-to-r from-white/0 from-30% to-white to-50% p-2 pe-8 mb-2 flex justify-between">
                 <div className="font-bold text-xl text-green-600">
-                    :: รายงานยอดขาย
+                    <i className="fa-solid fa-coins me-2"></i>
+                    รายงานยอดขาย
                 </div>
                 <div className="flex items-center justify-end">
                     <span className="me-4 text-xs text-gray-500">เลือกดูตามช่วงเวลา</span>
-                    <input type="date" name="dayStart" max={today} className="px-2 border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
-                    <span className="mx-4">-</span>
-                    <input type="date" name="dayEnd" max={today} className="px-2 border border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
+                    <input type="date" name="dayStart" max={today} className="px-2 border hover:border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
+                    <span className="mx-4 text-gray-500">-</span>
+                    <input type="date" name="dayEnd" max={today} className="px-2 border hover:border-sky-500 rounded" onChange={e => hdlDateInput(e)}></input>
 
                     <div className="ms-4">
                         <div className="relative bg-white p-[2px] w-max h-max rounded rounded-full overflow-hidden">
                             {isLoading && <div className="animate-spin absolute top-[50%] left-[-25%] w-[150%] h-2 bg-sky-500 z-0"></div>}
-                            <button disabled={isLoading} className="relative w-7 h-7 bg-sky-300 rounded rounded-full border border-sky-500 text-sky-600 hover:text-white hover:bg-sky-500 hover:border-white btn-disabled z-20" onClick={hdlWatch}>
+                            <button disabled={isLoading} className="relative w-7 h-7 bg-sky-100 rounded rounded-full border border-sky-500 text-sky-500 hover:text-white hover:bg-sky-500 hover:border-white btn-disabled z-20" onClick={hdlWatch}>
                                 <i className="fa-solid fa-magnifying-glass fa-xs"></i>
                             </button>
                         </div>
