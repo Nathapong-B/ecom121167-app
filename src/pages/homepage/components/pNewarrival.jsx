@@ -48,10 +48,10 @@ export default function ProductsNewArrival(props) {
             search: createSearchParams({ pid: `${id}`, store }).toString()
         });
     };
-
+    
     return (
         <div>
-            <div className="block-title">สินค้ามาใหม่</div>
+            <div className="block-title bg-gradient-to-r from-green-500 from-30% to-red-500/0 to-90% text-white py-2 rounded-tl-lg">New arrival - สินค้ามาใหม่</div>
             <BlockProducts products={pNewArrival} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
         </div>
     )

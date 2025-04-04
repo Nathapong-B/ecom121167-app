@@ -1,6 +1,6 @@
 export default function Footer(){
     return(
-        <div className="flex justify-center py-2">
+        <div className="flex justify-center py-2 text-gray-200">
             <div>@copyright 2025</div>
         </div>
     )

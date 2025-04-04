@@ -48,10 +48,10 @@ export default function ProductRecommend(props) {
             search: createSearchParams({ pid: `${id}`, store }).toString()
         });
     };
-
+    
     return (
         <div>
-            <div className="block-title">สินค้าแนะนำ</div>
+            <div className="block-title bg-gradient-to-r from-sky-500 from-30% to-red-500/0 to-90% text-white py-2 rounded-tl-lg">Recommend - สินค้าแนะนำ</div>
             <BlockProducts products={products} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
         </div >
     )

@@ -5,6 +5,7 @@ import ProductsBestSeller from "./components/pBestSeller";
 import ProductRecommend from "./components/pRecommend";
 import StickyBoxCart from "./components/stickyBoxCart";
 import { useOutletContext } from "react-router-dom";
+import RenderFirstView from "../util/firstViewComponents/renderFirstView";
 
 export default function MainPage() {
     const [scrollTopEl, setScrollTop] = useState(0);
@@ -40,23 +41,31 @@ export default function MainPage() {
         const stopPoint = mainContentsHeight - stickyBoxHeight;
 
         // ถ้า pt มีค่ามากกว่าหรือเท่ากับ stopPoint ให้คืนค่า stopPoint เพื่อไม่ให้กล่องเลื่อนทะลุความสูงของ maincontents
-        if (pt >= stopPoint) return stopPoint;
+        if (pt >= (stopPoint - 40)) return stopPoint;
 
         // ถ้าระยะ scroll เลื่อนลงมาเกินขนาดมากกว่า 1หน้าจอแสดงผล(หมายถึงผ่านจากส่วนของ header มาแล้ว) ให้เริ่มใช้ค่า pt
-        if (pt > 0) return pt;
+        if (pt > 0) return pt + 40;
 
         return 0;
     };
 
     root.style.setProperty('--stickyTop', `${(stickyTop())}px`);
 
+    const divDemo = () => {
+        console.log('demo')
+        return (
+            <div>test demo</div>
+        )
+    }
+
     return (
         <div ref={mainRef} className="flex flex-wrap justify-center relative h-max">
 
             {/* main contents */}
-            <div id='main_contents' className="relative t-hscreen pb-8 w-full h-max flex flex-wrap justify-center transition-all ease-[cubic-bezier(0,50,99,0)] duration-300 z-20">
+            <div id='main_contents' className="relative t-hscreen w-full h-max flex flex-wrap justify-center transition-all ease-[cubic-bezier(0,50,99,0)] duration-300 z-20">
 
-                <div className="w-full h-screen mb-[60px]">
+                <div className="w-full h-screen ">
+                    {/* <div className="w-full h-screen mb-[60px]"> */}
                     <Header />
                 </div>
 
@@ -64,29 +73,27 @@ export default function MainPage() {
 
                     {/* main contents */}
                     <div ref={mainContentsRef} className="w-full md:pe-0 md:w-9/12 h-max flex flex-col flex-wrap items-center">
-                        <div className="block-display">
+
+                        <RenderFirstView
+                            threshold={0}
+                            className="min-h-[500px] block-display"
+                        >
                             <ProductRecommend />
-                        </div>
+                        </RenderFirstView>
 
-                        <div className="block-display">
-                            <div className="my-6 h-[2px] bg-gradient-to-r from-red-500/0 via-gray-500 to-red-500/0"></div>
-                        </div>
-
-                        <div className="block-display">
+                        <RenderFirstView
+                            threshold={0}
+                            className="min-h-[500px] block-display mt-8"
+                        >
                             <ProductsNewArrival />
-                        </div>
+                        </RenderFirstView>
 
-                        <div className="block-display">
-                            <div className="my-6 h-[2px] bg-gradient-to-r from-red-500/0 via-gray-500 to-red-500/0"></div>
-                        </div>
-
-                        <div className="block-display">
+                        <RenderFirstView
+                            threshold={0}
+                            className="min-h-[500px] block-display mt-8"
+                        >
                             <ProductsBestSeller />
-                        </div>
-
-                        <div className="block-display">
-                            <div className="my-6 h-[2px] bg-gradient-to-r from-red-500/0 via-gray-500 to-red-500/0"></div>
-                        </div>
+                        </RenderFirstView>
 
                         {/* <div className="block-display">
                             <div className="block-title w-max">ช้อปตามหมวดหมู่</div>
@@ -144,6 +151,14 @@ export default function MainPage() {
                         </div>
                     </div>
 
+                </div>
+
+                <div className="mt-[50px] w-full h-[200px] bg-gray-900">
+                    <div className="h-full flex items-end">
+                        <div className="w-full">
+                            <hr className="w-1/2 border-gray-200 m-auto"></hr>
+                        </div>
+                    </div>
                 </div>
 
             </div>

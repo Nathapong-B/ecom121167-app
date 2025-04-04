@@ -48,10 +48,10 @@ export default function ProductsBestSeller(props) {
             search: createSearchParams({ pid: `${id}`, store }).toString()
         });
     };
-
+    
     return (
         <div>
-            <div className="block-title">สินค้าขายดี</div>
+            <div className="block-title bg-gradient-to-r from-red-500 from-30% to-red-500/0 to-90% text-white py-2 rounded-tl-lg">Best seller - สินค้าขายดี</div>
             <BlockProducts products={pBestSeller} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
         </div>
     )

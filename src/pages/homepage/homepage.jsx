@@ -107,7 +107,7 @@ export default function Homepage() {
                 <Outlet context={hdlOutletContext} />
             </div>
 
-            <div className="w-full h-20 bg-gray-300">
+            <div className="w-full h-20 bg-gray-900">
                 <Footer />
             </div>
 
