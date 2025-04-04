@@ -68,6 +68,18 @@
 }
 
 .spinner:before {
+    width: 13.4px;
+    height: 22.4px;
+    background: #f9fafb;
+    border-radius: 20.4px 0 0 20.4px;
+    top: -0.4px;
+    left: -0.8px;
+    -webkit-transform-origin: 10.4px 10.2px; 
+    transform-origin: 11.2px 11.2px;
+     -webkit-animation: loading 2s infinite ease 1.5s;
+    animation: loading 2s infinite ease 1.5s;
+}
+/* .spinner:before {
     width: 10.4px;
     height: 20.4px;
     background: #f9fafb;
@@ -78,7 +90,7 @@
     transform-origin: 10.4px 10.2px;
      -webkit-animation: loading 2s infinite ease 1.5s;
     animation: loading 2s infinite ease 1.5s;
-}
+} */
 
 .spinner:after {
     width: 10.4px;
