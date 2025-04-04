@@ -18,20 +18,29 @@ export default function MainPage() {
     const [mainContentsHeight, setMainContentsHeight] = useState(0);
     const [stickyBoxHeight, seStickyBoxHeight] = useState(0);
 
+    const hdlScroll = () => {
+        const {
+            scrollTop,
+            clientHeight,
+        } = document.documentElement;
+
+        const path = window.location.pathname
+        if (path !== "/" && path !== "/main") {
+            window.removeEventListener('scroll', hdlScroll);
+            return true;
+        };
+
+        setScrollTop(() => scrollTop);
+        setClientHeight(() => clientHeight);
+        setMainContentsHeight(mainContentsRef.current.clientHeight)
+        seStickyBoxHeight(stickyBoxRef.current.clientHeight)
+
+    };
+
     useEffect(() => {
         hdlOutletContext('Home')
 
-        window.addEventListener('scroll', () => {
-            const {
-                scrollTop,
-                clientHeight,
-            } = document.documentElement;
-
-            setScrollTop(() => scrollTop);
-            setClientHeight(() => clientHeight);
-            setMainContentsHeight(mainContentsRef.current.clientHeight)
-            seStickyBoxHeight(stickyBoxRef.current.clientHeight)
-        });
+        window.addEventListener('scroll', hdlScroll);
     }, []);
 
     const stickyTop = () => {

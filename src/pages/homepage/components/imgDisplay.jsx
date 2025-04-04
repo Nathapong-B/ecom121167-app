@@ -57,7 +57,7 @@ export default function ImagesDisplay(props) {
     };
 
     const hdlBtn = (btn) => {
-        const key = btn.target.name;
+        const key = btn.target.id;
         hdlKeypress({ key })
     };
 
@@ -87,8 +87,8 @@ export default function ImagesDisplay(props) {
             {/* list */}
             <button ref={listRef} id="imgListEl" className="relative w-full h-28 outline-gray-300 cursor-default">
                 <div className="absolute top-0 left-0 h-full content-center">
-                    <button name="ArrowLeft" onClick={(e) => hdlBtn(e)} className="btn-prev-next">
-                        <i className="fa-solid fa-caret-left fa-xl"></i>
+                    <button id="ArrowLeft" onClick={(e) => hdlBtn(e)} className="btn-prev-next">
+                        <i id="ArrowLeft" className="fa-solid fa-caret-left fa-xl"></i>
                     </button>
                 </div>
 
@@ -103,8 +103,8 @@ export default function ImagesDisplay(props) {
                 </div>
 
                 <div className="absolute top-0 right-0 h-full content-center">
-                    <button name="ArrowRight" onClick={(e) => hdlBtn(e)} className="btn-prev-next">
-                    <i className="fa-solid fa-caret-right fa-xl"></i>
+                    <button id="ArrowRight" onClick={(e) => hdlBtn(e)} className="btn-prev-next">
+                        <i id="ArrowRight" className="fa-solid fa-caret-right fa-xl"></i>
                     </button>
                 </div>
             </button>
