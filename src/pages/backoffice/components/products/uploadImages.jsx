@@ -128,7 +128,14 @@ export default function UploadImages(props) {
         // fileImg // เก็บไฟล์ไบนารี่รูปภาพ
     };
 
-    // console.log('output : ',settingDataImgs(imgSelect))
+    const elBrowseFile = () => {
+        return (
+            <div title="upload images" className="flex items-center h-[70px] w-[70px] my-auto border-2 border-gray-400 border-dashed rounded rounded-lg cursor-pointer opacity-70 hover:opacity-100">
+                <img src="/upload.png" alt="upload images" onClick={()=>hdlClickInputFile()}></img>
+            </div>
+        )
+    };
+
     useEffect(() => {
         props.returnImg(settingDataImgs(imgSelect));
     }, [imgSelect]);
@@ -136,36 +143,38 @@ export default function UploadImages(props) {
     return (
         <div>
             <input type="file" multiple ref={elInputImg} className="hidden" onChange={(e) => hdlSelectImages(e)}></input>
-            {imgSelect.length >= 8
-                ?
-                <></>
-                :
-                <button className="bo-btn-add bg-sky-500" onClick={() => hdlClickInputFile()}>Upload Images</button>
-            }
 
             <div className="w-full h-20 flex gap-2 mt-4">
                 {imgSelect.length > 0
                     ?
-                    <DndContext
-                        collisionDetection={closestCenter}
-                        onDragStart={hdlDragStart}
-                        onDragEnd={hdlDragEnd}>
-                        <SortableContext items={imgSelect} strategy={horizontalListSortingStrategy}>
-                            {imgSelect.map((e, i) => (
-                                <div key={i} className="flex relative">
-                                    {!isDragging ? elBtnRemoveImg(e) : null}
-                                    <ImgSort data={e} dragging={isDragging?.id === e.id ? true : false} />
-                                </div>
-                            ))}
-                        </SortableContext>
+                    <div className="flex flex-wrap gap-2">
+                        <DndContext
+                            collisionDetection={closestCenter}
+                            onDragStart={hdlDragStart}
+                            onDragEnd={hdlDragEnd}>
+                            <SortableContext items={imgSelect} strategy={horizontalListSortingStrategy}>
+                                {imgSelect.map((e, i) => (
+                                    <div key={i} className="flex relative">
+                                        {!isDragging ? elBtnRemoveImg(e) : null}
+                                        <ImgSort data={e} dragging={isDragging?.id === e.id ? true : false} />
+                                    </div>
+                                ))}
+                            </SortableContext>
 
-                        <DragOverlay>
-                            {isDragging ? <ImgSort data={isDragging} dragging={isDragging ? true : false} /> : null}
-                        </DragOverlay>
+                            <DragOverlay>
+                                {isDragging ? <ImgSort data={isDragging} dragging={isDragging ? true : false} /> : null}
+                            </DragOverlay>
 
-                    </DndContext>
+                        </DndContext>
 
-                    : <></>
+                        {imgSelect?.length < 8
+                            ? elBrowseFile()
+                            : <></>
+                        }
+
+                    </div>
+
+                    : elBrowseFile()
                 }
 
             </div>
