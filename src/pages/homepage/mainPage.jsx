@@ -6,6 +6,7 @@ import ProductRecommend from "./components/pRecommend";
 import StickyBoxCart from "./components/stickyBoxCart";
 import { useOutletContext } from "react-router-dom";
 import RenderFirstView from "../util/firstViewComponents/renderFirstView";
+import MainFooter from "./components/mainFooter";
 
 export default function MainPage() {
     const [scrollTopEl, setScrollTop] = useState(0);
@@ -32,6 +33,7 @@ export default function MainPage() {
 
         setScrollTop(() => scrollTop);
         setClientHeight(() => clientHeight);
+
         setMainContentsHeight(mainContentsRef.current.clientHeight)
         seStickyBoxHeight(stickyBoxRef.current.clientHeight)
 
@@ -59,13 +61,6 @@ export default function MainPage() {
     };
 
     root.style.setProperty('--stickyTop', `${(stickyTop())}px`);
-
-    const divDemo = () => {
-        console.log('demo')
-        return (
-            <div>test demo</div>
-        )
-    }
 
     return (
         <div ref={mainRef} className="flex flex-wrap justify-center relative h-max">
@@ -162,12 +157,16 @@ export default function MainPage() {
 
                 </div>
 
-                <div className="mt-[50px] w-full h-[200px] bg-gray-900">
-                    <div className="h-full flex items-end">
-                        <div className="w-full">
-                            <hr className="w-1/2 border-gray-200 m-auto"></hr>
+                <div className="mt-[50px] w-full bg-gray-900">
+                    <div className="h-max flex justify-center py-4">
+                        <div className="text-gray-200 h-max">
+                            <MainFooter />
                         </div>
                     </div>
+
+                    {/* <div className="w-full">
+                        <hr className="w-1/2 border-gray-200 m-auto"></hr>
+                    </div> */}
                 </div>
 
             </div>
