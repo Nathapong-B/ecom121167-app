@@ -44,10 +44,14 @@ export default function HomepageCover(props) {
                 </div>
             </div>
 
-            <div id="elBall" onMouseOver={onHover} onMouseOut={onOut} onClick={onSlideCover} className="w-14 h-14 mb-3 bg-gray-400 relative animate-bounce rounded rounded-full  flex flex-col justify-center items-center overflow-hidden cursor-pointer text-gray-300 hover:bg-gray-300 hover:text-gray-400">
+            {/* <div id="elBall" title="click" onMouseOver={onHover} onMouseOut={onOut} onClick={onSlideCover} className="w-14 h-14 mb-3 bg-gray-400 relative animate-bounce rounded rounded-full  flex flex-col justify-center items-center overflow-hidden cursor-pointer text-gray-300 "> */}
+            <div id="elBall" title="click" onMouseOver={onHover} onMouseOut={onOut} onClick={onSlideCover} className="w-14 h-14 mb-3 bg-gray-400 relative animate-bounce rounded rounded-full  flex flex-col justify-center items-center overflow-hidden cursor-pointer text-gray-300 hover:bg-gray-300 hover:text-gray-400">
                 <div className="flex flex-col justify-center items-center">
-                    <div className="text-4xl relative top-2">&#94;</div>
-                    <div className="relative -top-2 font-bold">UP</div>
+                    <div className="text-3xl relative">
+                        {/* <i className="fa-solid fa-computer-mouse"></i> */}
+                        <i className="fa-solid fa-hand-pointer"></i>
+                    </div>
+                    {/* <div className="relative -top-1 text-xs font-bold">click</div> */}
                 </div>
                 <div id="elLine" name='elLine' className="absolute bg-white/60 w-full h-4 top-full transition-all duration-500"></div>
             </div>
