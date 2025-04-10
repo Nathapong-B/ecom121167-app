@@ -89,7 +89,7 @@ export default function NavBar() {
                     </div>
 
                     <div className="text-nav relative w-max z-20" onMouseOver={() => setCategoriesBox(true)} onMouseOut={() => setCategoriesBox(false)}>
-                        <span className="sm:text-sm"><i className="fa-solid fa-boxes-stacked me-1"></i></span>
+                        <span className="sm:text-sm"><i className="fa-solid fa-layer-group me-1"></i></span>
                         <div className="text-nav hidden sm:inline">หมวดหมู่</div>
                         {categoriesBox
                             ? <div onMouseOver={() => setCategoriesBox(true)} onMouseOut={() => setCategoriesBox(false)}>
@@ -121,7 +121,7 @@ export default function NavBar() {
                                             </div>
                                         }
                                     </div>
-                                    <div className="text-nav w-max max-w-[100px] truncate hidden sm:block">{profile.email}</div>
+                                    <div className="text-nav w-max max-w-[100px] truncate hidden sm:inline">{profile.email}</div>
                                 </div>
 
                                 {profileBox

@@ -16,65 +16,79 @@ export default function SideBar() {
 
     return (
         <div>
-
-            {/* <LoadingCover title={'Processing please wait.'} isLoading={true} /> */}
             <LoadingCover title={'Processing please wait.'} isLoading={isLoadingCoverPage} />
 
-            <div className="min-w-max m-auto text-gray-400 font-bold">
+            <div className="min-w-max w-max md:w-full m-auto text-gray-400 font-bold">
 
                 <div className="mt-10 mb-16">
                     <div className="w-max m-auto">
-                        <div className="text-end text-10px relative top-2">
-                            <Link to={'/'}>
+
+                        <div className="text-end text-10px relative top-2 hidden md:block">
+                            <Link to={'/'} title="Home page">
                                 <span className="italic text-gray-500">goto</span>Home page
                             </Link>
                         </div>
-                        <div className="text-2xl">ADMIN PANEL</div>
+
+                        <div className="text-2xl block md:hidden">
+                            <Link to={'/'} title="Home page">
+                                AP
+                            </Link>
+                        </div>
+                        <div className="text-2xl hidden md:block">ADMIN PANEL</div>
+
                     </div>
                 </div>
-                <div className="text-start pl-10 flex flex-col ">
 
-                    <NavLink to={'dashboard'} className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
+                <div className="text-center md:text-start md:pl-10 flex flex-col">
+
+                    <NavLink to={'dashboard'} title="Dashboard" className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
                         <button>
-                            Dashboard
+                            <span className="me-1 inline md:hidden"><i className="fa-solid fa-chart-line"></i></span>
+                            <span className="hidden md:inline">Dashboard</span>
                         </button>
                     </NavLink>
 
-                    <NavLink to={'categories'} className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
+                    <NavLink to={'categories'} title="Categories" className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
                         <button>
-                            Categories
+                            <span className="me-1 inline md:hidden"><i className="fa-solid fa-layer-group"></i></span>
+                            <span className="hidden md:inline">Categories</span>
                         </button>
                     </NavLink>
 
-                    <NavLink to={'product'} className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
+                    <NavLink to={'product'} title="Products" className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
                         <button>
-                            Products
+                            <span className="me-1 inline md:hidden"><i className="fa-solid fa-boxes-stacked"></i></span>
+                            <span className="hidden md:inline">Products</span>
                         </button>
                     </NavLink>
 
-                    <NavLink to={'order'} className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
+                    <NavLink to={'order'} title="Orders" className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
                         <button>
-                            Orders
+                            <span className="me-1 inline md:hidden"><i className="fa-solid fa-box"></i></span>
+                            <span className="hidden md:inline">Orders</span>
                         </button>
                     </NavLink>
 
-                    <NavLink to={'user'} className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
+                    <NavLink to={'user'} title="Users" className={({ isActive }) => isActive ? 'active-menu-sidebar' : 'menu-sidebar'}>
                         <button>
-                            Users
+                            <span className="me-1 inline md:hidden"><i className="fa-solid fa-users"></i></span>
+                            <span className="hidden md:inline">Users</span>
                         </button>
                     </NavLink>
 
-                    <NavLink to={'profile'} className={({ isActive }) => isActive ? 'active-menu-sidebar mt-4' : 'menu-sidebar mt-4'}>
+                    <NavLink to={'profile'} title="Profile" className={({ isActive }) => isActive ? 'active-menu-sidebar mt-4' : 'menu-sidebar mt-4'}>
                         <button>
-                            Profile
+                            <span className="me-1 inline md:hidden"><i className="fa-solid fa-user"></i></span>
+                            <span className="hidden md:inline">Profile</span>
                         </button>
                     </NavLink>
 
                 </div>
                 <hr className="m-5 border-gray-400"></hr>
                 <div>
-                    <button className="hover:text-gray-50" onClick={hdlSignout}>
-                        Sign out
+                    <button title="Sign out" className="hover:text-gray-50" onClick={hdlSignout}>
+                        <span className="me-1 inline md:hidden"><i className="fa-solid fa-right-from-bracket"></i></span>
+                        <span className="hidden md:inline">Sign out</span>
                     </button>
                 </div>
             </div>

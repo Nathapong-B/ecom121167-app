@@ -80,7 +80,7 @@ export default function UserInfo(props) {
             </div>
 
             <div className="text-center">
-                <button className="bo-btn-add" onClick={hdlClose}>OK,</button>
+                <button className="bo-btn-add bg-sky-500" onClick={hdlClose}>OK,</button>
             </div>
         </MyModal >
     )

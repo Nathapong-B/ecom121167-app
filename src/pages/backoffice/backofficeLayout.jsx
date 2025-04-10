@@ -42,12 +42,12 @@ export default function BackOfficeLayout() {
         <div className="flex bg-main gap-0">
 
             {/* side bar */}
-            <div className="bg-gray-900 w-1/5 min-w-min text-center pt-5 h-screen">
+            <div className="bg-gray-900 w-max md:w-1/5 min-w-min text-center pt-5 pb-5 h-screen overflow-y-auto edit-scroll">
                 <SideBar />
             </div>
 
             {/* content */}
-            <div className="w-4/5 h-screen overflow-y-auto p-5">
+            <div className="w-full md:w-4/5 h-screen overflow-y-auto p-5">
                 <Outlet />
             </div>
 

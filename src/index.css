@@ -219,7 +219,7 @@
 
 /* product detail - image list */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 .imgcontain::-webkit-scrollbar {
