@@ -110,7 +110,7 @@ export default function NavBar() {
                     <div>
                         {profile
                             ?
-                            <div className="relative w-36 max-w-36 justify-items-end">
+                            <div className="relative w-max justify-items-end">
                                 <div className="flex gap-2 items-center" onMouseOver={() => setProfileBox(true)} onMouseOut={() => setProfileBox(false)}>
                                     <div className="text-nav bg-white w-6 h-6 overflow-hidden rounded rounded-full">
                                         {profile.ProfileImage?.url
@@ -121,7 +121,7 @@ export default function NavBar() {
                                             </div>
                                         }
                                     </div>
-                                    <div className="text-nav w-28 truncate">{profile.email}</div>
+                                    <div className="text-nav w-max max-w-[100px] truncate hidden sm:block">{profile.email}</div>
                                 </div>
 
                                 {profileBox
