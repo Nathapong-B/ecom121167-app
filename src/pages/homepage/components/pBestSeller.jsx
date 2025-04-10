@@ -50,8 +50,8 @@ export default function ProductsBestSeller(props) {
     };
     
     return (
-        <div>
-            <div className="block-title bg-gradient-to-r from-red-500 from-30% to-red-500/0 to-90% text-white py-2 rounded-tl-lg">Best seller - สินค้าขายดี</div>
+        <div className="md:ms-1">
+            <div className="block-title bg-gradient-to-r from-red-500 from-30% to-red-500/0 to-90% text-white py-2 md:rounded-tl-lg">Best seller - สินค้าขายดี</div>
             <BlockProducts products={pBestSeller} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
         </div>
     )

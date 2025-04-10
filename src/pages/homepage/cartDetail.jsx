@@ -22,7 +22,7 @@ export default function CartDetail() {
 
     const hdlIncrease = (item) => {
         const res = actionIncrease(item);
-        if (res.error) return toast.warning(res.error.message);
+        if (res.error) return true;
     };
 
     const hdlDecrease = (item) => {

@@ -50,8 +50,8 @@ export default function ProductsNewArrival(props) {
     };
     
     return (
-        <div>
-            <div className="block-title bg-gradient-to-r from-green-500 from-30% to-red-500/0 to-90% text-white py-2 rounded-tl-lg">New arrival - สินค้ามาใหม่</div>
+        <div className="md:ms-1">
+            <div className="block-title bg-gradient-to-r from-green-500 from-30% to-red-500/0 to-90% text-white py-2 md:rounded-tl-lg">New arrival - สินค้ามาใหม่</div>
             <BlockProducts products={pNewArrival} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
         </div>
     )

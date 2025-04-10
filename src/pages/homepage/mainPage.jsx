@@ -158,7 +158,7 @@ export default function MainPage() {
                 </div>
 
                 <div className="mt-[50px] w-full bg-gray-900">
-                    <div className="h-max flex justify-center py-4">
+                    <div className="h-max flex justify-center py-4 pb-8">
                         <div className="text-gray-200 h-max">
                             <MainFooter />
                         </div>

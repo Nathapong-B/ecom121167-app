@@ -78,16 +78,19 @@ export default function NavBar() {
 
             {navBlur() && <div className="absolute bg-gray-200/10 w-full h-full backdrop-blur-sm z-10"></div>}
 
-            <div className="w-full max-w-6xl flex items-center justify-between z-50">
-                <div className="flex items-center gap-2">
-                    <div className="text-nav w-16 max-w-16">
+            <div className="w-full max-w-6xl flex flex-wrap items-center justify-between z-50">
+
+                <div className="flex flex-wrap items-center gap-4 mt-2">
+                    <div className="text-nav w-max overflow-hidden">
                         <Link to={'/main'}>
-                            หน้าหลัก
+                            <span className="sm:text-sm"><i className="fa-solid fa-house me-1"></i></span>
+                            <span className="hidden sm:inline">หน้าหลัก</span>
                         </Link>
                     </div>
 
-                    <div className="relative w-16 max-w-16 z-20">
-                        <div className="text-nav" onMouseOver={() => setCategoriesBox(true)} onMouseOut={() => setCategoriesBox(false)}>หมวดหมู่</div>
+                    <div className="text-nav relative w-max z-20" onMouseOver={() => setCategoriesBox(true)} onMouseOut={() => setCategoriesBox(false)}>
+                        <span className="sm:text-sm"><i className="fa-solid fa-boxes-stacked me-1"></i></span>
+                        <div className="text-nav hidden sm:inline">หมวดหมู่</div>
                         {categoriesBox
                             ? <div onMouseOver={() => setCategoriesBox(true)} onMouseOut={() => setCategoriesBox(false)}>
                                 <BoxCategories categoriesList={categoriesList} />
@@ -96,13 +99,13 @@ export default function NavBar() {
                         }
                     </div>
 
-                    <div>
+                    <div className="w-[200px] hidden sm:block">
                         <NavSearch />
                     </div>
 
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-6 mt-2">
 
                     <div>
                         {profile
@@ -129,9 +132,10 @@ export default function NavBar() {
                                 }
 
                             </div>
-                            : <div className="text-nav w-16 max-w-16 justify-items-end">
+                            : <div className="text-nav w-max justify-items-end">
                                 <Link to={'/auth/signin'}>
-                                    Sign in
+                                    <span className="sm:text-sm"><i className="fa-solid fa-right-to-bracket me-1"></i></span>
+                                    <span className="hidden sm:inline">Sign-in</span>
                                 </Link>
                             </div>
                         }
@@ -158,6 +162,11 @@ export default function NavBar() {
                         }
                     </div>
                 </div>
+
+                <div className="w-full mt-3 sm:hidden">
+                    <NavSearch />
+                </div>
+
             </div>
 
         </div>

@@ -124,7 +124,7 @@
   .card {
     /* @apply bg-gray-200 border border-gray-300 rounded overflow-hidden; */
     /* @apply bg-white rounded overflow-hidden max-w-48; */
-    @apply bg-white rounded overflow-hidden;
+    @apply bg-white rounded rounded-lg overflow-hidden;
   }
 
   .card-title {

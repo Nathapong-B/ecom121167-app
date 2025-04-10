@@ -22,7 +22,7 @@ export default function MainFooter() {
         <div className="flex flex-wrap gap-10 h-max lg:h-[130px]">
 
             {/* categories */}
-            <div className="mx-auto">
+            <div className="mx-auto px-2">
                 <div className="mb-2">
                     categories
                 </div>
@@ -34,7 +34,7 @@ export default function MainFooter() {
             </div>
 
             {/* contact us */}
-            <div className="flex flex-col gap-2 mx-auto">
+            <div className="flex flex-col gap-2 mx-auto px-2">
                 <div>
                     <div className="mb-2">
                         contact us
@@ -42,7 +42,7 @@ export default function MainFooter() {
 
                     <div className="text-sm">
                         <span>office: </span>
-                        <span>123/30 sisaket 1234556</span>
+                        <span>123/30 bangkok 1234556</span>
                     </div>
 
                     <div className="text-sm">
@@ -65,7 +65,7 @@ export default function MainFooter() {
             </div>
 
             {/* about */}
-            <div className="mx-auto">
+            <div className="mx-auto px-2">
                 <div className="mb-2">
                     about
                 </div>
