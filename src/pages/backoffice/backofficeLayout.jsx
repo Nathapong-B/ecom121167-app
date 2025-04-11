@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import SideBar from "./sidebar";
 import { useAuthStore } from "../../ecomStore/authStore";
@@ -9,6 +9,7 @@ export default function BackOfficeLayout() {
         uId: s.user?.sub,
     })));
     const navigate = useNavigate();
+    const [expand, setExpand] = useState(true);
 
     document.title = 'Back office';
 
@@ -38,16 +39,26 @@ export default function BackOfficeLayout() {
         window.addEventListener('beforeunload', hdlUnloadPage);
     }, []);
 
+    const sidebarExpand = () => {
+        const expTrue = "left-0 w-max md:w-1/5 min-w-min";
+        const expFalse = "-left-[100%] w-0";
+        return expand ? expTrue : expFalse;
+    };
+
     return (
         <div className="flex bg-main gap-0">
 
+            <div title="ซ่อน/แสดง แถบเมนู" onClick={() => setExpand(!expand)} className={`absolute top-[25px] left-0 px-4 text-end text-xl text-gray-400 hover:text-gray-50 bg-gray-900 rounded-r rounded-r-full cursor-pointer z-50`}>
+                <div className={expand ? "" : "rotate-180"}><i className="fa-solid fa-caret-left"></i></div>
+            </div>
+
             {/* side bar */}
-            <div className="bg-gray-900 w-max md:w-1/5 min-w-min text-center pt-5 pb-5 h-screen overflow-y-auto edit-scroll">
+            <div className={`relative bg-gray-900 text-center pt-5 pb-5 h-screen overflow-y-auto transition-all duration-1000 ease-[cubic-bezier(1,0,0,1.01)] z-40 ${sidebarExpand()}`}>
                 <SideBar />
             </div>
 
             {/* content */}
-            <div className="w-full md:w-4/5 h-screen overflow-y-auto p-5">
+            <div className={`w-full h-screen overflow-y-auto p-5 transition-all duration-2000 ease-out z-10 `}>
                 <Outlet />
             </div>
 

@@ -47,7 +47,7 @@ export default function HomepageCover(props) {
             {/* <div id="elBall" title="click" onMouseOver={onHover} onMouseOut={onOut} onClick={onSlideCover} className="w-14 h-14 mb-3 bg-gray-400 relative animate-bounce rounded rounded-full  flex flex-col justify-center items-center overflow-hidden cursor-pointer text-gray-300 "> */}
             <div id="elBall" title="click" onMouseOver={onHover} onMouseOut={onOut} onClick={onSlideCover} className="w-14 h-14 mb-3 bg-gray-400 relative animate-bounce rounded rounded-full  flex flex-col justify-center items-center overflow-hidden cursor-pointer text-gray-300 hover:bg-gray-300 hover:text-gray-400">
                 <div className="flex flex-col justify-center items-center">
-                    <div className="text-3xl relative">
+                    <div className="text-3xl relative -rotate-45">
                         {/* <i className="fa-solid fa-computer-mouse"></i> */}
                         <i className="fa-solid fa-hand-pointer"></i>
                     </div>

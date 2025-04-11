@@ -23,7 +23,8 @@ export default function SideBar() {
                 <div className="mt-10 mb-16">
                     <div className="w-max m-auto">
 
-                        <div className="text-end text-10px relative top-2 hidden md:block">
+                        {/* <div className="text-end text-10px relative top-2 hidden md:block"> */}
+                        <div className="text-end text-10px relative top-2 invisible md:visible w-[0px] md:w-full truncate">
                             <Link to={'/'} title="Home page">
                                 <span className="italic text-gray-500">goto</span>Home page
                             </Link>
