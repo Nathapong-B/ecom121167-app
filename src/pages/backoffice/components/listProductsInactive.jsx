@@ -74,6 +74,17 @@ export default function ListProductsInactive() {
         }
     }, []);
 
+    const hdlBtnActHover = (index, act) => {
+        const el = document.getElementsByName(`${index}`);
+
+        if (act) {
+            el[0].classList.replace('right-[100%]', 'right-[15%]');
+        } else {
+            el[0].classList.replace('right-[15%]', 'right-[100%]');
+        };
+
+    };
+
     return (
         <div>
 
@@ -102,7 +113,10 @@ export default function ListProductsInactive() {
                                 <td className="text-center">{e.stock}</td>
                                 <td className="text-center">{e.sold}</td>
                                 <td className="text-center">
-                                    <button className="bo-btn-add bg-gray-500" onClick={() => hdlChangeStatus(e)}>Inactive</button>
+                                    <button className="relative bo-btn-add bg-gray-500 overflow-hidden"  onMouseOver={() => hdlBtnActHover(i, true)} onMouseLeave={() => hdlBtnActHover(i, false)} onClick={() => hdlChangeStatus(e)}>
+                                        <div name={i} className="absolute right-[100%] top-0 px-2 w-full bg-green-500 rounded rounded-full overflow-hidden transition-all duration-300 ease-linear">Active</div>
+                                        <div>Inactive</div>
+                                    </button>
                                 </td>
                                 <td className="text-center">
                                     <button className="bo-btn-add bg-red-500" onClick={() => hdlRemoveProduct(e)}>Delete</button>

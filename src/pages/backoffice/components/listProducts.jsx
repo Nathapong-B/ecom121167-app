@@ -66,6 +66,17 @@ export default function ListProducts(props) {
         return arrImgs.sort((a, b) => (a.position - b.position));
     };
 
+    const hdlBtnActHover = (index, act) => {
+        const el = document.getElementsByName(`${index}`);
+
+        if (act) {
+            el[0].classList.replace('right-[100%]', 'right-[15%]');
+        } else {
+            el[0].classList.replace('right-[15%]', 'right-[100%]');
+        };
+
+    };
+
     return (
         <div>
 
@@ -96,7 +107,10 @@ export default function ListProducts(props) {
                                 <td className="text-center">{e.stock}</td>
                                 <td className="text-center">{e.sold}</td>
                                 <td className="text-center">
-                                    <button className="bo-btn-add bg-green-500" onClick={() => hdlChangeStatus(e)}>Active</button>
+                                    <button className="relative bo-btn-add bg-green-500 overflow-hidden" onMouseOver={() => hdlBtnActHover(i, true)} onMouseLeave={() => hdlBtnActHover(i, false)} onClick={() => hdlChangeStatus(e)}>
+                                        <div name={i} className="absolute right-[100%] top-0 w-full px-2 bg-gray-500 rounded rounded-full overflow-hidden transition-all duration-300 ease-linear">Inactive</div>
+                                        <div>Active</div>
+                                    </button>
                                 </td>
                             </tr>
                         ))

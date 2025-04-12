@@ -62,7 +62,18 @@ export default function ListCategoriesInactive() {
         if (!inactiveCategories) {
             callListCategories('inactive', token);
         }
-    }, [])
+    }, []);
+
+    const hdlBtnActHover = (index, act) => {
+        const el = document.getElementsByName(`${index}`);
+
+        if (act) {
+            el[0].classList.replace('right-[100%]', 'right-[15%]');
+        } else {
+            el[0].classList.replace('right-[15%]', 'right-[100%]');
+        };
+
+    };
 
     return (
         <div>
@@ -96,7 +107,10 @@ export default function ListCategoriesInactive() {
                                     </td>
 
                                     <td className="text-center">
-                                        <button className="bo-btn-add bg-gray-500" onClick={() => hdlUpdateStatusCategory(e)}>Inactive</button>
+                                        <button className="relative bo-btn-add bg-gray-500 overflow-hidden" onMouseOver={() => hdlBtnActHover(i, true)} onMouseLeave={() => hdlBtnActHover(i, false)} onClick={() => hdlUpdateStatusCategory(e)}>
+                                            <div name={i} className="absolute right-[100%] top-0 px-2 w-full bg-green-500 rounded rounded-full overflow-hidden transition-all duration-300 ease-linear">Active</div>
+                                            <div>Inactive</div>
+                                        </button>
                                         <button className="bo-btn-add bg-red-500 ms-2" onClick={() => hdlRemoveCategory(e)}>Delete</button>
                                     </td>
                                 </tr>
