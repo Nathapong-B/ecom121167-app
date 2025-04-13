@@ -4,6 +4,8 @@ import { useShallow } from "zustand/react/shallow";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../../../ecomStore/authStore";
 import Swal from "sweetalert2";
+import BtnMotionSlice from "../../util/btnMotion";
+import LoadingCover from "../../loadingCover";
 
 export default function ListProducts(props) {
     // const [dataProducts, setDataProducts] = useState();
@@ -15,6 +17,7 @@ export default function ListProducts(props) {
             updateStatus: s.actionUpdateStatusProduct,
         }))
     );
+    const [isLoadingCoverPage, setIsLoadingCoverPage] = useState(false);
 
     const callDataListProducts = async () => {
         try {
@@ -41,6 +44,7 @@ export default function ListProducts(props) {
         });
 
         if (event.isConfirmed) {
+            setIsLoadingCoverPage(true);
             const res = await updateStatus(item, token);
 
             if (res.status === 200) {
@@ -49,6 +53,8 @@ export default function ListProducts(props) {
                 toast.error(`${res.error.message}`);
                 console.log(res.error.message)
             };
+
+            setIsLoadingCoverPage(false);
         };
     };
 
@@ -66,19 +72,9 @@ export default function ListProducts(props) {
         return arrImgs.sort((a, b) => (a.position - b.position));
     };
 
-    const hdlBtnActHover = (index, act) => {
-        const el = document.getElementsByName(`${index}`);
-
-        if (act) {
-            el[0].classList.replace('right-[100%]', 'right-[15%]');
-        } else {
-            el[0].classList.replace('right-[15%]', 'right-[100%]');
-        };
-
-    };
-
     return (
         <div>
+            <LoadingCover title={'Processing please wait.'} isLoading={isLoadingCoverPage} />
 
             <table className="bo-tb">
                 <thead>
@@ -107,10 +103,7 @@ export default function ListProducts(props) {
                                 <td className="text-center">{e.stock}</td>
                                 <td className="text-center">{e.sold}</td>
                                 <td className="text-center">
-                                    <button className="relative bo-btn-add bg-green-500 overflow-hidden" onMouseOver={() => hdlBtnActHover(i, true)} onMouseLeave={() => hdlBtnActHover(i, false)} onClick={() => hdlChangeStatus(e)}>
-                                        <div name={i} className="absolute right-[100%] top-0 w-full px-2 bg-gray-500 rounded rounded-full overflow-hidden transition-all duration-300 ease-linear">Inactive</div>
-                                        <div>Active</div>
-                                    </button>
+                                    <BtnMotionSlice index={i} data={e} start={'right-[100%]'} stop={'right-[15%]'} btnmain={'Active'} btnsecond={'Inactive'} returndata={hdlChangeStatus} />
                                 </td>
                             </tr>
                         ))

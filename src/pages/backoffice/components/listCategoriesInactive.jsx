@@ -4,6 +4,8 @@ import { useEcomStore } from "../../../ecomStore/useEcomStore";
 import { useShallow } from "zustand/react/shallow";
 import Swal from "sweetalert2";
 import { toast } from 'react-toastify';
+import BtnMotionSlice from "../../util/btnMotion";
+import LoadingCover from "../../loadingCover";
 
 export default function ListCategoriesInactive() {
     const token = useAuthStore(s => s.token);
@@ -16,6 +18,7 @@ export default function ListCategoriesInactive() {
             removeCategory: s.actionRemoveCategory,
         }))
     );
+    const [isLoadingCoverPage, setIsLoadingCoverPage] = useState(false);
 
     const hdlUpdateStatusCategory = async (item) => {
         const event = await Swal.fire({
@@ -26,6 +29,7 @@ export default function ListCategoriesInactive() {
         });
 
         if (event.isConfirmed) {
+            setIsLoadingCoverPage(true);
             const res = await updateStatus(item, token);
 
             if (res.status === 200) {
@@ -34,6 +38,8 @@ export default function ListCategoriesInactive() {
                 toast.error(`${res.error.message}`);
                 console.log(res.error.message)
             };
+
+            setIsLoadingCoverPage(false);
         };
     };
 
@@ -46,6 +52,7 @@ export default function ListCategoriesInactive() {
         });
 
         if (even.isConfirmed) {
+            setIsLoadingCoverPage(true);
             const id = item.id;
             const res = await removeCategory(id, token);
 
@@ -55,6 +62,8 @@ export default function ListCategoriesInactive() {
                 toast.error(`${res.error.message}`);
                 console.log(res.error.message)
             };
+
+            setIsLoadingCoverPage(false);
         };
     };
 
@@ -64,24 +73,9 @@ export default function ListCategoriesInactive() {
         }
     }, []);
 
-    const hdlBtnActHover = (index, act) => {
-        const el = document.getElementsByName(`${index}`);
-
-        if (act) {
-            el[0].classList.replace('right-[100%]', 'right-[15%]');
-        } else {
-            el[0].classList.replace('right-[15%]', 'right-[100%]');
-        };
-
-    };
-
     return (
         <div>
-            {/* <div className="text-end px-5 py-2">
-                <input type="text" placeholder="Search category" className="frm-input py-0"></input>
-                <button className="bo-btn-add bg-sky-500 py-0 ms-1">Search</button>
-            </div> */}
-
+            <LoadingCover title={'Processing please wait.'} isLoading={isLoadingCoverPage} />
             <div>
 
                 <table className="bo-tb">
@@ -107,10 +101,7 @@ export default function ListCategoriesInactive() {
                                     </td>
 
                                     <td className="text-center">
-                                        <button className="relative bo-btn-add bg-gray-500 overflow-hidden" onMouseOver={() => hdlBtnActHover(i, true)} onMouseLeave={() => hdlBtnActHover(i, false)} onClick={() => hdlUpdateStatusCategory(e)}>
-                                            <div name={i} className="absolute right-[100%] top-0 px-2 w-full bg-green-500 rounded rounded-full overflow-hidden transition-all duration-300 ease-linear">Active</div>
-                                            <div>Inactive</div>
-                                        </button>
+                                        <BtnMotionSlice index={i} data={e} start={'right-[100%]'} stop={'right-[15%]'} btnmain={'Inactive'} btnsecond={'Active'} colmain={'bg-gray-500'} colsecond={'bg-green-500'} returndata={hdlUpdateStatusCategory} />
                                         <button className="bo-btn-add bg-red-500 ms-2" onClick={() => hdlRemoveCategory(e)}>Delete</button>
                                     </td>
                                 </tr>
