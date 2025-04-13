@@ -56,6 +56,7 @@ export default function Report() {
     const [totalOrders, setTotalOrders] = useState(0);
     const [cost, setCost] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+    const cssBoxReport = 'flex flex-col justify-center min-w-[200px] sm:min-w-max bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4';
 
     const fetchData = async (dayStart, dayEnd, status) => {
         const payload = { dayStart, dayEnd };
@@ -204,7 +205,7 @@ export default function Report() {
             <div className="w-full flex flex-col xl:flex-row gap-2">
                 <div className="w-full xl:w-2/12 flex flex-wrap gap-2">
 
-                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-green-500">
+                    <div className={`${cssBoxReport} border-s-green-500`}>
                         <div className="ps-2 me-2 text-xs text-gray-500">ยอดรวม</div>
                         <div className="text-center text-green-600 mx-2">
                             <i className="relative -top-2 fa-solid fa-baht-sign me-1"></i>
@@ -214,14 +215,14 @@ export default function Report() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-sky-500">
+                    <div className={`${cssBoxReport} border-s-sky-500`}>
                         <div className="ps-2 me-2 text-xs text-gray-500">คำสั่งซื้อ</div>
                         <div className="text-center text-sky-600 text-3xl mx-2">
                             {totalOrders.toLocaleString()}
                         </div>
                     </div>
 
-                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-red-500">
+                    <div className={`${cssBoxReport} border-s-red-500`}>
                         <div className="ps-2 me-2 text-xs text-gray-500">ต้นทุน</div>
                         <div className="text-center text-red-500 mx-2">
                             <i className="relative -top-2 fa-solid fa-baht-sign me-1"></i>
@@ -231,7 +232,7 @@ export default function Report() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-green-600">
+                    <div className={`${cssBoxReport} border-s-green-500`}>
                         <div className="ps-2 me-2 text-xs text-gray-500">กำไร</div>
                         <div className="text-center text-green-600 mx-2">
                             <i className="relative -top-2 fa-solid fa-baht-sign me-1"></i>
