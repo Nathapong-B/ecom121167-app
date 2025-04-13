@@ -191,7 +191,6 @@ export default function Report() {
                             <div className="relative bg-white p-[2px] w-full max-w-36 sm:w-max mx-auto sm:w-max h-max rounded rounded-full overflow-hidden">
                                 {isLoading && <div className="animate-spin absolute top-[50%] left-[-25%] w-[150%] h-2 bg-sky-500 z-0"></div>}
                                 <button disabled={isLoading} className="relative w-full sm:w-7 h-7 bg-sky-100 rounded rounded-full border border-sky-500 text-sky-500 hover:text-white hover:bg-sky-500 hover:border-white btn-disabled z-20" onClick={hdlWatch}>
-                                {/* <button disabled={isLoading} className="relative w-7 h-7 bg-sky-100 rounded rounded-full border border-sky-500 text-sky-500 hover:text-white hover:bg-sky-500 hover:border-white btn-disabled z-20" onClick={hdlWatch}> */}
                                     <i className="fa-solid fa-magnifying-glass fa-xs"></i>
                                 </button>
                             </div>
@@ -206,8 +205,8 @@ export default function Report() {
                 <div className="w-full xl:w-2/12 flex flex-wrap gap-2">
 
                     <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-green-500">
-                        <div className="ps-2 text-xs text-gray-500">ยอดรวม</div>
-                        <div className="text-center text-green-600">
+                        <div className="ps-2 me-2 text-xs text-gray-500">ยอดรวม</div>
+                        <div className="text-center text-green-600 mx-2">
                             <i className="relative -top-2 fa-solid fa-baht-sign me-1"></i>
                             <span className="text-3xl">
                                 {sumTotal.toLocaleString()}
@@ -216,15 +215,15 @@ export default function Report() {
                     </div>
 
                     <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0 shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-sky-500">
-                        <div className="ps-2 text-xs text-gray-500">คำสั่งซื้อ</div>
-                        <div className="text-center text-sky-600 text-3xl">
+                        <div className="ps-2 me-2 text-xs text-gray-500">คำสั่งซื้อ</div>
+                        <div className="text-center text-sky-600 text-3xl mx-2">
                             {totalOrders.toLocaleString()}
                         </div>
                     </div>
 
                     <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-red-500">
-                        <div className="ps-2 text-xs text-gray-500">ต้นทุน</div>
-                        <div className="text-center text-red-500">
+                        <div className="ps-2 me-2 text-xs text-gray-500">ต้นทุน</div>
+                        <div className="text-center text-red-500 mx-2">
                             <i className="relative -top-2 fa-solid fa-baht-sign me-1"></i>
                             <span className="text-3xl">
                                 {cost.toLocaleString()}
@@ -233,8 +232,8 @@ export default function Report() {
                     </div>
 
                     <div className="flex flex-col justify-center bg-white pb-2 pt-1 xl:pt-0 xl:pb-0  shadow-lg grow xl:shrink xl:w-full border-s-4 border-s-green-600">
-                        <div className="ps-2 text-xs text-gray-500">กำไร</div>
-                        <div className="text-center text-green-600">
+                        <div className="ps-2 me-2 text-xs text-gray-500">กำไร</div>
+                        <div className="text-center text-green-600 mx-2">
                             <i className="relative -top-2 fa-solid fa-baht-sign me-1"></i>
                             <span className="text-3xl">
                                 {calNetRevenue(sumTotal, cost).toLocaleString()}
