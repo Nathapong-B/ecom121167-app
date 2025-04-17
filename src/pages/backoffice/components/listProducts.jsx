@@ -21,7 +21,7 @@ export default function ListProducts(props) {
 
     const callDataListProducts = async () => {
         try {
-            const res = await callListProducts(6);
+            const res = await callListProducts(20);
 
             if (res.status === 200) {
                 // console.log(res)

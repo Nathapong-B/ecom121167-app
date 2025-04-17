@@ -20,7 +20,7 @@ export default function ListProductsInactive() {
     const [isLoadingCoverPage, setIsLoadingCoverPage] = useState(false);
 
     const callInactive = async () => {
-        const res = await callInactiveData(6, token)
+        const res = await callInactiveData(20, token)
 
         if (res.status === 200) {
             // console.log(res)

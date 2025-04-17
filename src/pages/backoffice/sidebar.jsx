@@ -20,7 +20,7 @@ export default function SideBar() {
 
             <div className="min-w-max w-max md:w-full m-auto text-gray-400 font-bold">
 
-                <div className="mt-10 mb-16">
+                <div className="mt-10 mb-16 mx-2">
                     <div className="w-max m-auto">
 
                         {/* <div className="text-end text-10px relative top-2 hidden md:block"> */}

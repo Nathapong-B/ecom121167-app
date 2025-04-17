@@ -26,7 +26,7 @@ export default function ListUsers(props) {
     const hdlCallListUsers = async (status) => {
         if (status === 'active') {
             if (!usersactive) {
-                const res = await callListUsers(status, 6, token);
+                const res = await callListUsers(status, 20, token);
                 if (res.error) {
                     toast.error(res.error.message)
                     console.log(res)
@@ -38,7 +38,7 @@ export default function ListUsers(props) {
 
         if (status === 'inactive') {
             if (!usersinactive) {
-                const res = await callListUsers(status, 6, token);
+                const res = await callListUsers(status, 20, token);
                 if (res.error) {
                     toast.error(res.error.message)
                     console.log(res)
