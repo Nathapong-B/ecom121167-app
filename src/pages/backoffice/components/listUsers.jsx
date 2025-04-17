@@ -3,6 +3,8 @@ import { useAuthStore } from "../../../ecomStore/authStore"
 import { useShallow } from "zustand/react/shallow";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import BtnMotionSlice from "../../util/btnMotion";
+import LoadingCover from "../../loadingCover";
 
 export default function ListUsers(props) {
     const { showActive } = props;
@@ -17,6 +19,7 @@ export default function ListUsers(props) {
         }))
     );
     const [dataListUser, setDataLIstUser] = useState([]);
+    const [isLoadingCoverPage, setIsLoadingCoverPage] = useState(false);
 
     // email, role, status, first_name, last_name, address, phone, profile_image, last_update, create_date,
 
@@ -60,6 +63,7 @@ export default function ListUsers(props) {
         });
 
         if (eventClick.isConfirmed) {
+            setIsLoadingCoverPage(true);
             const res = await changeStatus(id, status, token);
 
             if (res.status === 200) {
@@ -69,6 +73,8 @@ export default function ListUsers(props) {
                 toast.error(res.error.message);
                 console.log(res)
             }
+
+            setIsLoadingCoverPage(false);
         };
 
     };
@@ -85,10 +91,12 @@ export default function ListUsers(props) {
         };
 
         window.addEventListener('beforeunload', actionClearUsers)
-    }, [showActive,usersactive,usersinactive]);
+    }, [showActive, usersactive, usersinactive]);
 
     return (
         <div>
+            <LoadingCover title={'Processing please wait.'} isLoading={isLoadingCoverPage} />
+
             <div>
                 <table className="bo-tb">
                     <thead>
@@ -109,7 +117,9 @@ export default function ListUsers(props) {
                                     <td className="ps-2">{e.role}</td>
                                     <td className="ps-2">{e.first_name ?? ''} {e.last_name ?? ''}</td>
                                     <td className="text-center">
-                                        <button className={e.status === 'active' ? "bo-btn-add bg-green-500" : "bo-btn-add bg-gray-500"} onClick={() => hdlChangeStatus(e)}>{e.status}</button>
+                                        {/* <button className={e.status === 'active' ? "bo-btn-add bg-green-500" : "bo-btn-add bg-gray-500"} onClick={() => hdlChangeStatus(e)}>{e.status}</button> */}
+
+                                        <BtnMotionSlice index={i} data={e} start={'right-[100%]'} stop={'right-[15%]'} btnmain={e.status === 'active' ? 'Active' : 'Inactive'} btnsecond={e.status === 'active' ? 'Inactive' : 'Active'} colmain={e.status === 'active' ? 'bg-green-500' : 'bg-gray-500'} colsecond={e.status === 'active' ? 'bg-gray-500' : 'bg-green-500'} returndata={hdlChangeStatus} />
                                     </td>
                                     <td className="text-center">
                                         <button className="bo-btn-add bg-sky-500" onClick={() => hdlUserInfo(e)}>Info</button>
