@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useEcomStore } from "../../../ecomStore/useEcomStore";
 import { useShallow } from "zustand/react/shallow";
 import BlockProducts from "./blockProducts";
@@ -15,6 +15,7 @@ export default function ProductRecommend(props) {
         addToCart: s.actionAddToCart,
     })));
     const nav = useNavigate();
+    const [dataProducts, setDataProducts] = useState();
 
     const callProducts = async () => {
         const res = await callListProduct(6);
@@ -22,14 +23,19 @@ export default function ProductRecommend(props) {
         // res.success ? props.load({ recommend: true }) : '';
     };
 
+    const settingProductsData = () => {
+        setDataProducts(() => products.slice(0, 6))
+    };
+
     useEffect(() => {
         if (!products) {
             callProducts();
         }
-        // else {
-        //     props.load({ recommend: true });
-        // };
-    }, []);
+
+        if (products) {
+            settingProductsData();
+        }
+    }, [products]);
 
     const hdlAddToCart = (data) => {
         const res = addToCart(data);
@@ -52,7 +58,7 @@ export default function ProductRecommend(props) {
     return (
         <div className="md:ms-1">
             <div className="block-title bg-gradient-to-r from-sky-500 from-30% to-red-500/0 to-90% text-white py-2 md:rounded-tl-lg">Recommend - สินค้าแนะนำ</div>
-            <BlockProducts products={products} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
+            <BlockProducts products={dataProducts} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
         </div >
     )
 };
