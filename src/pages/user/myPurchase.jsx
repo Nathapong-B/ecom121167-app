@@ -1,11 +1,13 @@
 import { useShallow } from "zustand/react/shallow"
 import { useCartStore } from "../../ecomStore/useCartStore"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "../../ecomStore/authStore";
 import { toast } from "react-toastify";
 import PageNotFound from "../404Page";
 import MyPurchaseTable from "./components/myPurchaseTable";
 import { useOutletContext, useSearchParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import LoadingCover from "../loadingCover";
 
 export default function MyPurchase() {
     const [searchParams] = useSearchParams();
@@ -19,6 +21,7 @@ export default function MyPurchase() {
         actionRemoveOrder: s.actionRemoveOrder,
     })));
     const hdlOutletContext = useOutletContext();
+    const [isLoadingCoverPage, setIsLoadingCoverPage] = useState(false);
 
     // document.title = 'Purchase';
 
@@ -37,6 +40,16 @@ export default function MyPurchase() {
 
     const hdlRemoveOrder = async (item) => {
         const { id } = item;
+
+        const eventSwal = await Swal.fire({
+            title: 'ยกเลิกคำสั่งซื้อ',
+            icon: 'warning',
+            showCancelButton: true,
+        });
+
+        if (!eventSwal?.isConfirmed) return false;
+
+        setIsLoadingCoverPage(true);
         const res = await actionRemoveOrder(id, token);
 
         if (res.error) return toast.error(res.error.message);
@@ -44,6 +57,8 @@ export default function MyPurchase() {
         if (res.status === 200) {
             toast.success(res.data.message);
         };
+
+        setIsLoadingCoverPage(false);
     };
 
     useEffect(() => {
@@ -62,6 +77,7 @@ export default function MyPurchase() {
 
     return (
         <div className="w-full max-w-6xl m-auto">
+            <LoadingCover title={'Processing please wait.'} isLoading={isLoadingCoverPage} />
 
             {token
                 ? myPurchase.length > 0

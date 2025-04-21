@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useShallow } from "zustand/react/shallow";
 import { printPDF } from "./orders/createPDF";
 import OrderInfo from "./orders/orderInfo";
+import LoadingCover from "../../loadingCover";
 
 export default function ListOrdersAdmin() {
     const token = useAuthStore(s => s.token);
@@ -21,6 +22,7 @@ export default function ListOrdersAdmin() {
     const [onEdit, setOnEdit] = useState();
     const [newTracking, setNewTracking] = useState('');
     const [info, setInfo] = useState(false);
+    const [isLoadingCoverPage, setIsLoadingCoverPage] = useState(false);
 
     const hdlCallListOrders = async () => {
         const res = await callListOrder(20, token);
@@ -66,6 +68,7 @@ export default function ListOrdersAdmin() {
             if (!eventSwal?.isConfirmed) return false;
         };
 
+        setIsLoadingCoverPage(true);
         const res = await updateTracking(id, data, token);
 
         //completed
@@ -77,6 +80,8 @@ export default function ListOrdersAdmin() {
         } else if (res.error) {
             toast.error(`${res.error.message}`);
         };
+
+        setIsLoadingCoverPage(false);
     };
 
     const hdlCancelEditTracking = () => {
@@ -114,6 +119,7 @@ export default function ListOrdersAdmin() {
         if (!eventSwal?.isConfirmed) {
             return false;
         } else {
+            setIsLoadingCoverPage(true);
             const res = await removeOrder(id, token);
 
             if (res.status === 200) {
@@ -122,6 +128,8 @@ export default function ListOrdersAdmin() {
             } else if (res.error) {
                 toast.error(`${res.error.message}`);
             };
+
+            setIsLoadingCoverPage(false);
         };
     };
 
@@ -131,16 +139,9 @@ export default function ListOrdersAdmin() {
         }
     }, []);
 
-    const debug = () => {
-        // const { User, OrderDetail } = listOrders[0];
-        // console.log('user : ', User)
-        // console.log('order detail : ', OrderDetail)
-        console.log(listOrders)
-    }
-
     return (
         <div>
-            {/* <button className="bo-btn-add" onClick={debug}>debug</button> */}
+            <LoadingCover title={'Processing please wait.'} isLoading={isLoadingCoverPage} />
 
             {info ? <OrderInfo data={info} close={hdlOrderInfo} /> : <></>}
 
