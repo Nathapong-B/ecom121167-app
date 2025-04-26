@@ -9,10 +9,16 @@ const ecomStore = (set, get) => ({
     categories: null,
     inactiveCategories: null,
     products: null,
+    productsLoading: false,
+    productsError: null,
     inactiveProducts: null,
     orders: null,
     pNewArrival: null,
+    pNewArrivalLoading: false,
+    pNewArrivalError: null,
     pBestSeller: null,
+    pBestSellerLoading: false,
+    pBestSellerError: null,
     reportThisMonth: null,
     countuser: null,
     countproduct: null,
@@ -172,16 +178,17 @@ const ecomStore = (set, get) => ({
 
     // products
     actionCallListProduct: async (count) => {
+        set({ productsLoading: true, productsError: null });
         try {
             const res = await listProducts(count);
-
-            set({ products: res.data.result });
-
+            set({ products: res.data.result, productsLoading: false });
             return { success: true, res };
         } catch (err) {
-            console.log(err)
+            console.error("Error fetching products:", err);
+            set({ productsError: err, productsLoading: false });
             if (err?.code === "ERR_NETWORK") return { error: { message: err.message } };
-            return { error: { message: err.response.data.message } };
+            const errorMessage = err.response?.data?.message || 'Failed to fetch products';
+            return { error: { message: errorMessage } };
         }
     },
 
@@ -270,38 +277,51 @@ const ecomStore = (set, get) => ({
     },
 
     actionListProductsBy: async (count, sort) => {
-        try {
-            let keyName;
-            let sortBy;
-            switch (sort) {
-                case 'newarrival':
-                    // pNewArrival
-                    keyName = 'pNewArrival';
-                    sortBy = 'create_date';
-                    break;
-                case 'bestseller':
-                    // pBestSeller
-                    keyName = 'pBestSeller';
-                    sortBy = 'sold'
-                    break;
-                default:
-                    //else
-                    break;
-            };
+        let keyName, loadingKey, errorKey, sortBy;
+        
+        // Determine keys based on sort parameter
+        switch (sort) {
+            case 'newarrival':
+                keyName = 'pNewArrival';
+                loadingKey = 'pNewArrivalLoading';
+                errorKey = 'pNewArrivalError';
+                sortBy = 'create_date';
+                break;
+            case 'bestseller':
+                keyName = 'pBestSeller';
+                loadingKey = 'pBestSellerLoading';
+                errorKey = 'pBestSellerError';
+                sortBy = 'sold'
+                break;
+            default:
+                console.error("Invalid sort parameter for actionListProductsBy");
+                return { error: { message: 'Invalid sort parameter' } };
+        };
 
+        // Set loading state to true and clear previous errors for the specific type
+        set({ [loadingKey]: true, [errorKey]: null });
+
+        try {
             const res = await listProductsBy(count, sortBy);
 
             if (res.status === 200) {
-                set({ [keyName]: res.data.result });
-
+                // Set data and loading to false on success
+                set({ [keyName]: res.data.result, [loadingKey]: false });
                 return { success: true, res };
             } else {
-                return { error: { message: 'Somthing wrong' } };
+                // Handle non-200 status as error
+                const errorMessage = 'Failed to fetch products (non-200 status)';
+                console.error(errorMessage, res);
+                set({ [errorKey]: new Error(errorMessage), [loadingKey]: false });
+                return { error: { message: 'Somthing wrong' } }; // Keep original return for consistency?
             };
         } catch (err) {
-            console.log(err)
+            console.error(`Error fetching ${sort} products:`, err);
+             // Set error state and loading to false on catch
+            set({ [errorKey]: err, [loadingKey]: false });
             if (err?.code === "ERR_NETWORK") return { error: { message: err.message } };
-            return { error: { message: err.response.data.message } };
+            const errorMessage = err.response?.data?.message || `Failed to fetch ${sort} products`;
+            return { error: { message: errorMessage } };
         }
     },
 

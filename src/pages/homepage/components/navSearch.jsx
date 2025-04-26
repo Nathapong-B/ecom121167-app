@@ -58,7 +58,7 @@ export default function NavSearch() {
                     <label htmlFor="search" id="lbl_search" onClick={(e) => hdlOnClick(e)} className={`text-11px  px-1 rounded rounded-full ${inputHide ? '' : 'box-shadow-normal'} cursor-pointer select-none`}>
                         <i className="fa-solid fa-magnifying-glass"></i>
                     </label>
-                    <input ref={inputRef} id="search" placeholder="ป้อนชื่อสินค้า" onChange={(e) => setKeyword(e.target.value)} className={`${!inputHide ? 'ms-2 w-36' : 'w-0'} ring-none outline-none text-sm text-gray-500 transition-all duration-300`}></input>
+                    <input ref={inputRef} id="search" placeholder="ป้อนชื่อสินค้า" onChange={(e) => setKeyword(e.target.value)} className={`${!inputHide ? 'ms-2 w-36' : 'w-0'} ring-none outline-none text-sm text-gray-500 transition-all duration-300`} autoComplete="off"></input>
                 </div>
             </form>
         </div>

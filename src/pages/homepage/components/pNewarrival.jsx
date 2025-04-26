@@ -6,9 +6,21 @@ import { useCartStore } from "../../../ecomStore/useCartStore";
 import { toast } from "react-toastify";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
+// Placeholder data for New Arrivals
+const placeholderNewArrivals = Array.from({ length: 6 }).map((_, i) => ({
+    id: `placeholder-na-${i}`,
+    product_name: `New Arrival Placeholder ${i + 1} (Fallback)`,
+    price: 1200 + i * 50, // Slightly different price for variety
+    Image: [{ url: `https://via.placeholder.com/300x300.png?text=New+${i + 1}` }], 
+    isFallback: true,
+}));
+
 export default function ProductsNewArrival(props) {
-    const { pNewArrival, callListProductsBy } = useEcomStore(useShallow(s => ({
+    // Get relevant states from the store
+    const { pNewArrival, pNewArrivalLoading, pNewArrivalError, callListProductsBy } = useEcomStore(useShallow(s => ({
         pNewArrival: s.pNewArrival,
+        pNewArrivalLoading: s.pNewArrivalLoading,
+        pNewArrivalError: s.pNewArrivalError,
         callListProductsBy: s.actionListProductsBy,
     })));
     const { addToCart } = useCartStore(useShallow(s => ({
@@ -16,20 +28,12 @@ export default function ProductsNewArrival(props) {
     })));
     const nav = useNavigate();
 
-    const callProducts = async () => {
-        const res = await callListProductsBy(6, 'newarrival');
-        res.error ? alert(`${res.error.message}`) : '';
-        // res.success ? props.load({ newarrival: true }) : '';
-    };
-
     useEffect(() => {
-        if (!pNewArrival) {
-            callProducts();
+        // Call API only if data isn't already loaded or loading/error
+        if (!pNewArrival && !pNewArrivalLoading && !pNewArrivalError) {
+            callListProductsBy(6, 'newarrival');
         }
-        // else {
-        //     props.load({ newarrival: true });
-        // };
-    }, []);
+    }, [pNewArrival, pNewArrivalLoading, pNewArrivalError, callListProductsBy]); // Added dependencies
 
     const hdlAddToCart = (data) => {
         const res = addToCart(data);
@@ -49,10 +53,33 @@ export default function ProductsNewArrival(props) {
         });
     };
     
+    // Determine which product list to display
+    const displayProducts = pNewArrivalError 
+        ? placeholderNewArrivals 
+        : pNewArrival?.slice(0, 6) || []; // Use slice or empty array
+
+    // Loading Skeleton Component (same as in pRecommend)
+    const LoadingSkeleton = () => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+            {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="border border-gray-200 rounded-md p-4 shadow animate-pulse">
+                    <div className="h-48 bg-gray-300 rounded mb-4"></div> 
+                    <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div> 
+                    <div className="h-4 bg-gray-300 rounded w-1/2"></div> 
+                </div>
+            ))}
+        </div>
+    );
+
     return (
         <div className="md:ms-1">
             <div className="block-title bg-gradient-to-r from-green-500 from-30% to-red-500/0 to-90% text-white py-2 md:rounded-tl-lg">New arrival - สินค้ามาใหม่</div>
-            <BlockProducts products={pNewArrival} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
+            {/* Conditional Rendering: Show Skeleton on loading, error, or no data */}
+            {(pNewArrivalLoading || pNewArrivalError || (!pNewArrivalLoading && !pNewArrival?.length)) ? (
+                <LoadingSkeleton />
+            ) : (
+                <BlockProducts products={displayProducts} returnData={hdlAddToCart} returnViewProduct={viewProductDetail} />
+            )}
         </div>
     )
 };

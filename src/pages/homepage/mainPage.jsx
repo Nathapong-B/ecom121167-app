@@ -6,7 +6,6 @@ import ProductRecommend from "./components/pRecommend";
 import StickyBoxCart from "./components/stickyBoxCart";
 import { useOutletContext } from "react-router-dom";
 import RenderFirstView from "../util/firstViewComponents/renderFirstView";
-import MainFooter from "./components/mainFooter";
 
 export default function MainPage() {
     const [scrollTopEl, setScrollTop] = useState(0);
@@ -68,105 +67,45 @@ export default function MainPage() {
             {/* main contents */}
             <div id='main_contents' className="relative t-hscreen w-full h-max flex flex-wrap justify-center transition-all ease-[cubic-bezier(0,50,99,0)] duration-300 z-20">
 
+                {/* Header takes full screen height initially */}
                 <div className="w-full h-screen ">
-                    {/* <div className="w-full h-screen mb-[60px]"> */}
                     <Header />
                 </div>
 
-                <div className="w-full max-w-6xl flex flex-wrap justify-center">
+                {/* Added padding-top to create space below Header */}
+                {/* Added max-width container for content sections */}
+                <div className="w-full max-w-6xl flex flex-col items-center px-4 pt-16 sm:pt-24">
 
-                    {/* main contents */}
-                    <div ref={mainContentsRef} className="w-full md:pe-0 md:w-9/12 h-max flex flex-col flex-wrap items-center">
-
-                        <RenderFirstView
-                            threshold={0}
-                            className="min-h-[500px] block-display"
-                        >
+                    {/* Added margin-bottom to space out sections */}
+                    <section ref={mainContentsRef} className="w-full h-max mb-16 sm:mb-24">
+                        <RenderFirstView threshold={0} className="min-h-[500px] block-display">
                             <ProductRecommend />
                         </RenderFirstView>
+                    </section>
 
-                        <RenderFirstView
-                            threshold={0}
-                            className="min-h-[500px] block-display mt-8"
-                        >
+                    {/* Added margin-bottom to space out sections */}
+                    <section className="w-full h-max mb-16 sm:mb-24">
+                        <RenderFirstView threshold={0} className="min-h-[500px] block-display">
                             <ProductsNewArrival />
                         </RenderFirstView>
+                    </section>
 
-                        <RenderFirstView
-                            threshold={0}
-                            className="min-h-[500px] block-display mt-8"
-                        >
+                    {/* Added margin-bottom to space out sections */}
+                    <section className="w-full h-max mb-16 sm:mb-24">
+                        <RenderFirstView threshold={0} className="min-h-[500px] block-display">
                             <ProductsBestSeller />
                         </RenderFirstView>
+                    </section>
 
-                        {/* <div className="block-display">
-                            <div className="block-title w-max">ช้อปตามหมวดหมู่</div>
-                            <img src="/mouse.png" className="w-8 h-8"></img>
-
-                            <div className="ms-8 my-4 flex gap-2">
-                                <div className="group relative bg-gray-300 p-[2px] w-max h-max rounded rounded-lg overflow-hidden">
-                                    <div className="group-hover:animate-spin absolute top-[50%] left-[-25%] w-[150%] h-2 bg-green-500 z-0"></div>
-                                    <button disabled={true} className="relative bo-btn-add bg-sky-500 btn-disabled z-10">
-                                        click
-                                    </button>
-                                </div>
-                                <div className="relative bg-gray-300 p-[2px] w-max h-max rounded rounded-lg overflow-hidden">
-                                    <div className="animate-spin absolute top-[50%] left-[-25%] w-[150%] h-2 bg-sky-500 z-0"></div>
-                                    <button disabled={true} className="relative bo-btn-add bg-sky-500 btn-disabled z-10">
-                                        click
-                                    </button>
-                                </div>
-                                <div className="relative bg-gray-300 p-[2px] w-max h-max rounded rounded-lg overflow-hidden">
-                                    <div className="animate-spin absolute top-[50%] left-[-25%] w-[150%] h-2 bg-red-500 z-0"></div>
-                                    <button disabled={true} className="relative bo-btn-add bg-sky-500 btn-disabled z-10">
-                                        click
-                                    </button>
-                                </div>
-
-                                <div className="relative bg-gray-300 p-[2px] w-max h-max rounded rounded-full overflow-hidden">
-                                    <div className="animate-spin absolute top-[50%] left-[-25%] w-[150%] h-2 bg-green-500 z-0"></div>
-                                    <button disabled={true} className="relative w-8 h-8 rounded rounded-full bg-sky-500 btn-disabled z-10">
-                                        click
-                                    </button>
-                                </div>
-                                <div className="relative bg-gray-300 p-[2px] w-max h-max rounded rounded-full overflow-hidden">
-                                    <div className="animate-spin absolute top-[50%] left-[-25%] w-[150%] h-2 bg-sky-500 z-0"></div>
-                                    <button disabled={true} className="relative w-8 h-8 rounded rounded-full bg-sky-500 btn-disabled z-10">
-                                        click
-                                    </button>
-                                </div>
-                                <div className="relative bg-gray-300 p-[2px] w-max h-max rounded rounded-full overflow-hidden">
-                                    <div className="animate-spin absolute top-[50%] left-[-25%] w-[150%] h-2 bg-red-500 z-0"></div>
-                                    <button disabled={true} className="relative w-8 h-8 rounded rounded-full bg-sky-500 btn-disabled z-10">
-                                        click
-                                    </button>
-                                </div>
-                            </div>
-                        </div> */}
-
-                    </div>
-
-                    {/* rigth box */}
-                    <div className="z-30 hidden md:block md:w-3/12 ">
+                    {/* Commented out the unused right box section */}
+                    {/* <div className="z-30 hidden md:block md:w-3/12 ">
                         <div className="sticky-top m-auto w-3/4 transition-all ease-out duration-1000">
                             <div ref={stickyBoxRef}>
                                 <StickyBoxCart />
                             </div>
                         </div>
-                    </div>
-
-                </div>
-
-                <div className="mt-[50px] w-full bg-gray-900">
-                    <div className="h-max flex justify-center py-4 pb-8">
-                        <div className="text-gray-200 h-max">
-                            <MainFooter />
-                        </div>
-                    </div>
-
-                    {/* <div className="w-full">
-                        <hr className="w-1/2 border-gray-200 m-auto"></hr>
                     </div> */}
+
                 </div>
 
             </div>

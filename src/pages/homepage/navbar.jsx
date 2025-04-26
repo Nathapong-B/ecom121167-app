@@ -25,32 +25,6 @@ export default function NavBar() {
     const [basketBox, setBasketBox] = useState(false);
     const [profileBox, setProfileBox] = useState(false);
     const containEl = useRef();
-    const colorDefault = "bg-gradient-to-r from-gray-200/90 from-20% via-gray-200/50 to-gray-200/90 to-80%";
-    const colorTextDefault = "text-gray-500 shadow-sm";
-    const colorTextWhite = "text-gray-200";
-    const [scrollTop, setScrollTop] = useState(0);
-    const [clientHeight, setClientHeight] = useState(0);
-
-    const navBlur = () => {
-        const path = location.pathname;
-        if (path === '/' || path === '/main') {
-            if (scrollTop > clientHeight) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        };
-    };
-
-    const changeColor = () => {
-        if (navBlur()) {
-            return colorTextDefault;
-        } else {
-            return colorTextWhite;
-        }
-    };
 
     const updateStore = () => {
         useCartStore.persist.rehydrate()
@@ -61,110 +35,129 @@ export default function NavBar() {
             callListCategories(6)
         };
 
-        window.addEventListener('scroll', () => {
-            const {
-                scrollTop,
-                clientHeight
-            } = document.documentElement;
-            setClientHeight(() => clientHeight);
-            setScrollTop(() => scrollTop);
-        });
-
         window.addEventListener('focus', updateStore);
     }, []);
 
     return (
-        <div ref={containEl} className={`navbar relative w-full px-6 h-10 flex justify-center ${changeColor()}`}>
+        <div ref={containEl} className={`navbar relative w-full px-4 sm:px-6 h-16 flex items-center justify-center bg-white shadow-md text-gray-800`}>
 
-            {navBlur() && <div className="absolute bg-gray-200/10 w-full h-full backdrop-blur-sm z-10"></div>}
+            <div className="w-full max-w-7xl flex items-center justify-between">
 
-            <div className="w-full max-w-6xl flex flex-wrap items-center justify-between z-50">
-
-                <div className="flex flex-wrap items-center gap-4 mt-2">
-                    <div className="text-nav w-max overflow-hidden">
-                        <Link to={'/main'}>
-                            <span className="sm:text-sm"><i className="fa-solid fa-house me-1"></i></span>
-                            <span className="hidden sm:inline">หน้าหลัก</span>
-                        </Link>
+                <div className="flex items-center gap-6">
+                    <div className="text-xl font-bold text-blue-600">
+                        <Link to={'/main'}>LOGO</Link>
                     </div>
 
-                    <div className="text-nav relative w-max z-20" onMouseOver={() => setCategoriesBox(true)} onMouseOut={() => setCategoriesBox(false)}>
-                        <span className="sm:text-sm"><i className="fa-solid fa-layer-group me-1"></i></span>
-                        <div className="text-nav hidden sm:inline">หมวดหมู่</div>
-                        {categoriesBox
-                            ? <div onMouseOver={() => setCategoriesBox(true)} onMouseOut={() => setCategoriesBox(false)}>
-                                <BoxCategories categoriesList={categoriesList} />
-                            </div>
-                            : <></>
-                        }
-                    </div>
-
-                    <div className="w-[200px] hidden sm:block">
-                        <NavSearch />
-                    </div>
-
-                </div>
-
-                <div className="flex gap-6 mt-2">
-
-                    <div>
-                        {profile
-                            ?
-                            <div className="relative w-max justify-items-end">
-                                <div className="flex gap-2 items-center" onMouseOver={() => setProfileBox(true)} onMouseOut={() => setProfileBox(false)}>
-                                    <div className="text-nav bg-white w-6 h-6 overflow-hidden rounded rounded-full">
-                                        {profile.ProfileImage?.url
-                                            ? <img src={profile.ProfileImage.url} className="w-full h-full"></img>
-                                            : <div className="w-full h-full flex flex-col items-center justify-end">
-                                                <div className="bg-gray-300 w-2/5 h-2/5 rounded rounded-full"></div>
-                                                <div className="bg-gray-300 w-4/5 h-1/2 rounded-t-full"></div>
-                                            </div>
-                                        }
-                                    </div>
-                                    <div className="text-nav w-max max-w-[100px] truncate hidden sm:inline">{profile.email}</div>
-                                </div>
-
-                                {profileBox
-                                    ? <div onMouseOver={() => setProfileBox(true)} onMouseOut={() => setProfileBox(false)}>
-                                        <BoxProfileMenu />
-                                    </div>
-                                    : <></>
-                                }
-
-                            </div>
-                            : <div className="text-nav w-max justify-items-end">
-                                <Link to={'/auth/signin'}>
-                                    <span className="sm:text-sm"><i className="fa-solid fa-right-to-bracket me-1"></i></span>
-                                    <span className="hidden sm:inline">Sign-in</span>
-                                </Link>
-                            </div>
-                        }
-                    </div>
-
-                    <div className="relative w-[10px] max-w-[10px] justify-items-end">
-                        <div className="text-nav flex " onMouseOver={() => setBasketBox(true)} onMouseOut={() => setBasketBox(false)}>
-                            <Link to={'main/cart'}>
-                                <div>
-                                    <i className="fa-solid fa-cart-shopping fa-lg"></i>
-                                </div>
-                                <div className="absolute -top-1 -right-2 bg-red-500 rounded rounded-full text-xs text-gray-200 h-4 w-4 flex justify-center items-center">
-                                    <div>
-                                        {cart.length}
-                                    </div>
-                                </div>
+                    <div className="hidden md:flex items-center gap-4">
+                        <div className="text-nav hover:text-blue-600">
+                            <Link to={'/main'}>
+                                <span className="sm:text-sm"><i className="fa-solid fa-house me-1"></i></span>
+                                <span className="hidden sm:inline">หน้าหลัก</span>
                             </Link>
                         </div>
-                        {basketBox
-                            ? <div onMouseOver={() => setBasketBox(true)} onMouseOut={() => setBasketBox(false)}>
-                                <BoxCart cart={cart} />
-                            </div>
-                            : <></>
-                        }
+                        <div className="text-nav relative z-20">
+                            <button 
+                                className="flex items-center hover:text-blue-600"
+                                onClick={() => setCategoriesBox(!categoriesBox)}
+                            >
+                                <span className="sm:text-sm"><i className="fa-solid fa-layer-group me-1"></i></span>
+                                <span className="hidden sm:inline">หมวดหมู่</span>
+                            </button>
+                            {categoriesBox &&
+                                <div 
+                                    className="absolute left-0 mt-2 z-30 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 py-2 px-4 w-max max-w-md" 
+                                    onMouseLeave={() => setCategoriesBox(false)}
+                                >
+                                    <ul className="text-sm text-gray-700 columns-2 md:columns-3 gap-x-6">
+                                        {
+                                            [
+                                                'Monitor Screen', 'Personal Computer / PC', 'Case', 'Laptop / Notebook',
+                                                'Taplet', 'Mobile Phone', 'Gadget', 'Graphic Card', 'Accessories',
+                                                'Storage', 'Memory', 'Mainboard'
+                                            ].map((category, index) => (
+                                                <li key={index} className="break-inside-avoid-column mb-1">
+                                                    <button 
+                                                        className="block w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
+                                                        onClick={() => { 
+                                                            console.log(`Clicked static category: ${category}`); 
+                                                            setCategoriesBox(false);
+                                                        }}
+                                                    >
+                                                        {category}
+                                                    </button>
+                                                </li>
+                                            ))
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                        <div className="w-[250px] hidden lg:block">
+                            <NavSearch />
+                        </div>
                     </div>
                 </div>
 
-                <div className="w-full mt-3 sm:hidden">
-                    <NavSearch />
+                <div className="flex items-center gap-4">
+                    <div className="lg:hidden">
+                        <NavSearch />
+                    </div>
+                    <div className="relative">
+                        <button 
+                            className="text-nav hover:text-blue-600 flex relative" 
+                            onClick={(e) => { 
+                                e.preventDefault(); 
+                                setBasketBox(!basketBox);
+                            }}
+                            aria-label="Toggle cart dropdown"
+                        >
+                            <i className="fa-solid fa-cart-shopping fa-lg"></i>
+                            {cart.length > 0 && (
+                                <div className="absolute -top-1 -right-2 bg-red-500 rounded-full text-xs text-white h-4 w-4 flex justify-center items-center">
+                                    {cart.length}
+                                </div>
+                            )}
+                        </button>
+                        
+                        {basketBox && (
+                             <div className="absolute right-0 mt-2 z-30" onMouseLeave={() => setBasketBox(false)}>
+                                <BoxCart cart={cart} />
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="relative">
+                        {profile
+                            ?
+                            <div className="relative flex items-center">
+                                <button className="flex gap-2 items-center" onClick={() => setProfileBox(!profileBox)}>
+                                    <div className="text-nav bg-white w-8 h-8 overflow-hidden rounded-full border border-gray-300 flex items-center justify-center">
+                                        {profile.ProfileImage?.url
+                                            ? <img src={profile.ProfileImage.url} className="w-full h-full object-cover"></img>
+                                            : <i class="fa-solid fa-user text-gray-400"></i>
+                                        }
+                                    </div>
+                                    <div className="text-nav w-max max-w-[100px] truncate hidden lg:inline hover:text-blue-600">{profile.email}</div>
+                                </button>
+                                {profileBox &&
+                                    <div className="absolute right-0 mt-2 z-30" onMouseLeave={() => setProfileBox(false)}>
+                                        <BoxProfileMenu />
+                                    </div>
+                                }
+                            </div>
+                            : <Link to={'/auth/signin'} className="text-nav hover:text-blue-600 flex items-center gap-1">
+                                <i className="fa-solid fa-right-to-bracket"></i>
+                                <span className="hidden sm:inline">Sign-in</span>
+                            </Link>
+                        }
+                    </div>
+
+                    <div className="md:hidden">
+                        <button className="text-gray-600 hover:text-blue-600">
+                            <i className="fa-solid fa-bars fa-lg"></i>
+                        </button>
+                    </div>
+
                 </div>
 
             </div>

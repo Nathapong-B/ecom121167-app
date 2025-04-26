@@ -1,7 +1,7 @@
 export default function Header() {
     return (
         <div className="relative h-max w-full">
-            <div className="relative -top-10 bg-gray-900 h-screen w-full">
+            <div className="relative bg-gray-900 h-screen w-full">
                 <div className="relative max-w-6xl h-full flex justify-start items-center mx-auto">
 
                     <div className="absolute bg-gradient-to-r from-gray-100 to-gray-100/0 md:from-gray-100/0 md:statice w-1/2 text-4xl font-black text-center text-gray-200 z-20">
@@ -21,7 +21,7 @@ export default function Header() {
                         <div className="text-gray-500 text-xs">Shop review.</div>
                     </div>
 
-                    <div className="mx-auto md:absolute md:top-10 md:-right-0 z-10">
+                    <div className="ml-auto z-10">
                         <img src="/pngegg.png" className="w-[650px]"></img>
                     </div>
 

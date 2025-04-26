@@ -6,7 +6,7 @@ import { useAuthStore } from "../../ecomStore/authStore";
 import { useShallow } from "zustand/react/shallow";
 import { useCartStore } from "../../ecomStore/useCartStore";
 import NavBar from "./navbar";
-import Footer from "./components/footer";
+import MainFooter from "./components/mainFooter";
 import { signOut } from "../auth/components/signout";
 
 export default function Homepage() {
@@ -54,8 +54,30 @@ export default function Homepage() {
 
         window.addEventListener('click', tokenValid);
 
-        return () => window.removeEventListener('click', tokenValid);
-    }, [token]);
+        // Add a scroll handler specifically for closing the cover
+        const handleScrollToCloseCover = () => {
+            // Only run if the cover is currently visible and on the root path
+            if (window.location.pathname === '/' && !homeCoverClose) {
+                // Use the same state setter as the click handler
+                setHomeCoverClose(true);
+                // Remove this specific listener once the cover is closed
+                window.removeEventListener('scroll', handleScrollToCloseCover);
+            }
+        };
+
+        // Attach the scroll listener only if on the root path and cover is visible
+        if (path === '/' && !homeCoverClose) {
+            window.addEventListener('scroll', handleScrollToCloseCover);
+        }
+
+        // Cleanup function
+        return () => {
+            window.removeEventListener('click', tokenValid);
+            window.removeEventListener('focus', checkMultiTab);
+            // Ensure the scroll listener is also removed on unmount/cleanup
+            window.removeEventListener('scroll', handleScrollToCloseCover);
+        };
+    }, [token, path, homeCoverClose]); // Add path and homeCoverClose to dependency array
 
     const syncUserCart = () => {
         // ตรวจสอบไอดียูส กับตะกร้าต้องตรงกัน
@@ -94,7 +116,7 @@ export default function Homepage() {
         <div className="relative w-full min-h-screen p-0 m-0 flex flex-col bg-main">
 
             {path === '/' &&
-                <div className={`h-screen w-full fixed top-0 z-50 ${coverHidden()}`}>
+                <div className={`h-screen w-full fixed top-0 z-50 transition-transform duration-500 ease-in-out ${homeCoverClose ? '-translate-y-full' : 'translate-y-0'}`}>
                     <HomepageCover close={hdlCoverClose} onClose={token ? true : false} />
                 </div>
             }
@@ -107,9 +129,7 @@ export default function Homepage() {
                 <Outlet context={hdlOutletContext} />
             </div>
 
-            <div className="w-full h-10 bg-gray-900">
-                <Footer />
-            </div>
+            <MainFooter />
 
         </div>
     )
