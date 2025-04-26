@@ -35,7 +35,15 @@ export default function HomepageCover(props) {
             <div className="flex-1 flex items-center">
                 <div>
                     <Link to={'/backoffice'} className="relative top-2"><span className="italic font-bold text-gray-400">goto</span><span className="font-bold text-gray-500">Back Office</span></Link>
-                    <h1 className="text-4xl text-gray-500 font-bold">Welcome to My Home Page</h1>
+                    <h1 className="text-4xl text-gray-500 font-black flex justify-center min-w-max">Welcome to
+                        <div className="relative ps-[10px]">
+                            <span className="absolute -top-[25px] italic text-7xl text-red-500">e</span>
+                        </div>
+                        <div className="ps-[40px]">
+                            <span className="me-2 text-yellow-400">-com</span>
+                            <span>SHOP</span>
+                        </div>
+                    </h1>
                     <div className="text-center text-gray-500 font-bold">
                         <Link to={'/auth/signin'}>Sign in</Link>
                         <span className="text-gray-400"> / </span>

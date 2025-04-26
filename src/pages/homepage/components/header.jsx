@@ -8,8 +8,8 @@ export default function Header() {
 
                         <div className="flex justify-center min-w-max">
 
-                            <div className="bg-red-500 relative">
-                                <span className="absolute -top-[65px] italic text-9xl text-gray-500">e</span>
+                            <div className="relative">
+                                <span className="absolute -top-[65px] italic text-9xl text-red-500">e</span>
                             </div>
                             <div className="ps-[60px]">
                                 <span className="me-2 text-yellow-400">-com</span>
