@@ -2,15 +2,18 @@ import { Link, NavLink } from "react-router-dom";
 import { signOut } from "../auth/components/signout";
 import LoadingCover from "../loadingCover";
 import { useState } from "react";
+import { useAuthStore } from "../../ecomStore/authStore";
 
 export default function SideBar() {
+    const actionSignout = useAuthStore(s => s.actionSignout)
     const [isLoadingCoverPage, setIsLoadingCoverPage] = useState(false);
 
     const hdlSignout = () => {
         setIsLoadingCoverPage(true)
         setTimeout(() => {
             setIsLoadingCoverPage(false);
-            signOut({ isReload: true });
+            actionSignout()
+            // signOut({ isReload: true });
         }, 2000);
     };
 

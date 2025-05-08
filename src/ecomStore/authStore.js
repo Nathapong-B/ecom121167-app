@@ -68,6 +68,17 @@ const authStore = (set, get) => ({
         };
     },
 
+    actionSignout: async () => {
+        set({
+            token: null,
+            refToken: null,
+            user: null,
+            profile: null,
+            usersactive: null,
+            usersinactive: null,
+        })
+    },
+
     actionListUsers: async (statusby, count, token) => {
         try {
             const res = await listUsers(statusby, count, token);
