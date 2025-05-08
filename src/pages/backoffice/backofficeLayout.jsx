@@ -53,7 +53,7 @@ export default function BackOfficeLayout() {
             </div>
 
             {/* side bar */}
-            <div className={`relative bg-gray-900 text-center pt-5 pb-5 h-screen overflow-y-auto transition-all duration-1000 ease-[cubic-bezier(1,0,0,1)] ${sidebarExpand()}`}>
+            <div className={`relative bg-gray-900 text-center pt-5 pb-5 h-screen overflow-y-auto transition-all duration-1000 ease-[cubic-bezier(1,0,0,1)] ${sidebarExpand()} z-40`}>
                 <SideBar />
             </div>
 
