@@ -87,9 +87,9 @@ export default function ImagesDisplay(props) {
             {/* list */}
             <button ref={listRef} id="imgListEl" className="relative w-full h-28 outline-gray-300 cursor-default">
                 <div className="absolute top-0 left-0 h-full content-center">
-                    <button id="ArrowLeft" onClick={(e) => hdlBtn(e)} className="btn-prev-next">
+                    <div id="ArrowLeft" onClick={(e) => hdlBtn(e)} className="btn-prev-next flex items-center">
                         <i id="ArrowLeft" className="fa-solid fa-caret-left fa-xl"></i>
-                    </button>
+                    </div>
                 </div>
 
                 <div id="imgListContainerEl" className="h-full flex overflow-x-auto imgcontain pb-2">
@@ -103,9 +103,9 @@ export default function ImagesDisplay(props) {
                 </div>
 
                 <div className="absolute top-0 right-0 h-full content-center">
-                    <button id="ArrowRight" onClick={(e) => hdlBtn(e)} className="btn-prev-next">
+                    <div id="ArrowRight" onClick={(e) => hdlBtn(e)} className="btn-prev-next flex items-center">
                         <i id="ArrowRight" className="fa-solid fa-caret-right fa-xl"></i>
-                    </button>
+                    </div>
                 </div>
             </button>
 
