@@ -23,6 +23,8 @@ export default function ProductDetail() {
     const [qty, setQty] = useState(1);
     const nav = useNavigate();
 
+    data?.product_name ? hdlOutletContext(data.product_name.toUpperCase()) : hdlOutletContext('Product detail');
+
     const fetchData = async () => {
         const res = await getProductDetail(pid, store);
 
@@ -79,10 +81,9 @@ export default function ProductDetail() {
 
         window.document.documentElement.scrollTop = 0;
 
-        data?.product_name ? hdlOutletContext(data.product_name.toUpperCase()) : hdlOutletContext('Product detail');
-
         fetchData();
         setQty(1);
+        
     }, [pid]);
 
     return (
@@ -100,7 +101,7 @@ export default function ProductDetail() {
                         <div className="font-bold text-2xl">{data.product_name.toUpperCase()}</div>
                         <div ref={elDes} className="text-gray-400">
                             <span className="text-sm">หมวดหมู่: </span>
-                            {data.Category.category_name}
+                            {data.Category?.category_name ?? "null"}
                         </div>
                         <div className="w-full font-bold">
                             <span className="text-4xl">
